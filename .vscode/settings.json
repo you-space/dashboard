@@ -1,3 +1,4 @@
 {
-    "cSpell.words": ["miragejs", "youspace"]
+    "cSpell.words": ["miragejs", "youspace"],
+    "scss.lint.unknownAtRules": "ignore"
 }

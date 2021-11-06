@@ -1,0 +1,59 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+    --color-primary: theme("colors.blue.500");
+}
+
+body {
+    @apply text-gray-700 dark:text-white transition-colors ease-in;
+}
+
+.notify {
+    --notify-color: theme("colors.primary");
+    --notify-duration: 3000;
+    @apply fixed bottom-0 left-0;
+    @apply my-4 mx-4 p-4;
+    @apply text-white text-sm;
+    @apply rounded-md shadow-lg;
+    @apply transition-opacity;
+
+    background-color: var(--notify-color);
+    opacity: 1;
+    animation: fade-in ease-in-out 800ms;
+
+    &.hide {
+        opacity: 0;
+    }
+
+    &.animate {
+        &:after {
+            @apply absolute bottom-0 left-0;
+            @apply bg-white;
+
+            content: "";
+
+            width: 100%;
+            height: 3px;
+            animation: notify-width ease-in-out var(--notify-duration);
+        }
+    }
+}
+@keyframes fade-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes notify-width {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}
