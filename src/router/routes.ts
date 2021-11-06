@@ -5,12 +5,16 @@ const components = import.meta.glob("../pages/**/*.vue");
 const pages = Object.entries(components)
     .filter(([filename]) => filename.split("/").pop()?.charAt(0) !== "-")
     .map(([filename, component]) => {
-        const path = filename
+        let path = filename
             .replace("../pages", "")
             .replace(/index/i, "")
             .replace(".vue", "")
             .replace(/_/g, ":")
             .toLowerCase();
+
+        if (path === "/404") {
+            path = ":pathMatch(.*)*";
+        }
 
         return {
             path,
