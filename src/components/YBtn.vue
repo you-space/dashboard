@@ -7,7 +7,9 @@
         <template v-if="label">
             {{ label }}
         </template>
+
         <slot v-else />
+
         <div
             v-if="loading"
             class="absolute inset-0 flex items-center justify-center"
@@ -46,5 +48,6 @@ export default defineComponent({
     @apply relative;
     @apply rounded cursor-pointer;
     @apply focus:outline-none border;
+    @apply font-bold;
 }
 </style>

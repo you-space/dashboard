@@ -2,7 +2,7 @@
 import {} from "vue";
 </script>
 <template>
-    <div class="shadow w-full">
+    <div class="shadow-lg w-full rounded">
         <slot></slot>
     </div>
 </template>
