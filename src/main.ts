@@ -4,6 +4,7 @@ import App from "./App.vue";
 import { YPlugin } from "./types";
 import { createServer } from "./mirage/server";
 import { createStore, key } from "./store";
+import middleware from "./router/middleware";
 
 if (process.env.NODE_ENV === "development") {
     createServer();
@@ -17,10 +18,19 @@ export async function createApp() {
     app.use(router);
     app.use(store, key);
 
+    const context = {
+        app,
+        router,
+        store,
+    };
+
+    router.beforeEach((to, from) => middleware({ ...context, to, from }));
+
     const modules = import.meta.globEager("./plugins/*.ts");
+
     const plugins: YPlugin[] = Object.values(modules).map((p) => p.default);
 
-    await Promise.all(plugins.map((plugin) => plugin({ app, router, store })));
+    await Promise.all(plugins.map((plugin) => plugin(context)));
 
     return { app, router };
 }

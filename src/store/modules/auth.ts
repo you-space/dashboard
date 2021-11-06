@@ -1,4 +1,5 @@
-import { MutationTree } from "vuex";
+import { ActionTree, MutationTree } from "vuex";
+import { RootState } from "@/store/state";
 
 export type State = typeof state;
 
@@ -16,7 +17,14 @@ const mutations: MutationTree<State> = {
     },
 };
 
+const actions: ActionTree<State, RootState> = {
+    login({ commit }) {
+        commit("setAuthenticated", true);
+    },
+};
+
 export default {
     state,
     mutations,
+    actions,
 };
