@@ -5,6 +5,7 @@ import { YPlugin } from "./types";
 import { createServer } from "./mirage/server";
 import { createStore, key } from "./store";
 import middleware from "./router/middleware";
+import "./styles/index.scss";
 
 if (process.env.NODE_ENV === "development") {
     createServer();

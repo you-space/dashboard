@@ -4,11 +4,10 @@ module.exports = {
     purge: [],
     darkMode: "class",
     theme: {
-        colors: {
-            ...colors,
-            primary: "var(--color-primary)",
-        },
         extend: {
+            colors: {
+                primary: "var(--color-primary)",
+            },
             transitionProperty: {
                 width: "width",
             },

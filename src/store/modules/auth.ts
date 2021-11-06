@@ -21,7 +21,7 @@ const mutations: MutationTree<State> = {
 const actions: ActionTree<State, RootState> = {
     async login({ commit, dispatch }) {
         return api
-            .post("/auth/user")
+            .get("/auth/user")
             .then((response) => {
                 commit("setAuthenticated", true);
                 commit("setUser", response.data);

@@ -61,14 +61,23 @@ export function createServer({ environment = "development" } = {}) {
             server.createList("video", 20);
         },
         routes() {
-            this.namespace = "api/v1";
+            this.namespace = "/api/v1";
             this.timing = 500;
 
             this.get("videos", (schema) => ({
                 data: schema.db.videos,
             }));
 
-            this.post("/auth/login", (schema, request) => {
+            this.get("auth/user", (schema) =>
+                schema.db.users.findBy({ username: "admin" })
+            );
+
+            this.post(
+                "auth/logout",
+                () => new Response(200, {}, { message: "Logout success" })
+            );
+
+            this.post("auth/login", (schema, request) => {
                 const data = JSON.parse(request.requestBody);
 
                 const user = schema.db.users.findBy({
@@ -81,15 +90,12 @@ export function createServer({ environment = "development" } = {}) {
                         400,
                         {},
                         {
-                            status: 400,
                             message: "E_INVALID_AUTH_UID: User not found",
                         }
                     );
                 }
 
-                return {
-                    message: "Login success",
-                };
+                return new Response(200, {}, { message: "Login success" });
             });
         },
     });
