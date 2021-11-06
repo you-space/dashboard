@@ -36,6 +36,7 @@ async function login() {
             <y-input
                 v-model="uuid"
                 label="E-mail or username"
+                placeholder="me@example.com"
                 autocomplete
                 class="mb-4"
             />
@@ -43,6 +44,7 @@ async function login() {
                 v-model="password"
                 label="Password"
                 type="password"
+                placeholder="Enter your password"
                 autocomplete
                 class="mb-8"
             />
