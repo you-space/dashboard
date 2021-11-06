@@ -2,6 +2,11 @@ import { createApp as baseCreateApp } from "vue";
 import { createRouter } from "./router";
 import App from "./App.vue";
 import { YPlugin } from "./types";
+import { makeServer } from "./mirage/server";
+
+if (process.env.NODE_ENV === "development") {
+    makeServer();
+}
 
 export async function createApp() {
     const app = baseCreateApp(App);
