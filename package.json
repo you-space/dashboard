@@ -8,11 +8,14 @@
     },
     "dependencies": {
         "axios": "^0.21.4",
+        "lodash": "^4.17.21",
         "vue": "^3.2.13",
-        "vue-router": "^4.0.12"
+        "vue-router": "^4.0.12",
+        "vuex": "^4.0.2"
     },
     "devDependencies": {
         "@types/faker": "^5.5.9",
+        "@types/lodash": "^4.14.176",
         "@types/node": "^16.11.6",
         "@vitejs/plugin-vue": "^1.9.0",
         "autoprefixer": "^10.4.0",

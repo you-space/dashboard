@@ -1,12 +1,24 @@
 import { App } from "vue";
-import { Router } from "vue-router";
-// import { Store } from 'vuex'
-// import { RootState } from './store/state'
+import {
+    NavigationGuardNext,
+    RouteLocationNormalized,
+    Router,
+} from "vue-router";
+import { Store } from "vuex";
+import { RootState } from "./store/state";
 
 export interface AppContext {
     app: App;
     router: Router;
-    //   store: Store<RootState>
+    store: Store<RootState>;
+}
+
+export interface MiddlewareContext {
+    app: App;
+    router: Router;
+    store: Store<RootState>;
+    to: RouteLocationNormalized;
+    from: RouteLocationNormalized;
 }
 
 export interface YPlugin {
