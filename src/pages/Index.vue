@@ -1,5 +1,5 @@
 <template>
     <div class="flex">
-        <y-card> sssss </y-card>
+        <y-card> Home page </y-card>
     </div>
 </template>

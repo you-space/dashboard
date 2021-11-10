@@ -24,12 +24,20 @@ export default defineComponent({
             type: String,
             default: "y-item-active",
         },
+        noPadding: {
+            type: Boolean,
+            default: false,
+        },
     },
     setup(props) {
         const classes = ["y-item"];
 
         if (props.to || props.clickable) {
             classes.push("y-item-clickable");
+        }
+
+        if (!props.noPadding) {
+            classes.push("px-6 py-3");
         }
 
         const attrs = {
@@ -46,7 +54,7 @@ export default defineComponent({
 
 <style lang="postcss">
 .y-item {
-    @apply flex w-full px-6 py-3;
+    @apply flex items-center w-full;
 }
 
 .y-item-clickable {

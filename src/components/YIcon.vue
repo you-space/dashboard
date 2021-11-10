@@ -18,8 +18,10 @@ defineProps({
 });
 </script>
 <template>
-    <font-awesome-icon
-        :icon="name"
-        :class="clickable ? 'cursor-pointer' : ''"
-    />
+    <i>
+        <font-awesome-icon
+            :icon="name"
+            :class="clickable ? 'cursor-pointer' : ''"
+        />
+    </i>
 </template>
