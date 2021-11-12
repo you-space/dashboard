@@ -2,7 +2,7 @@
     <button
         class="yt-btn"
         v-bind="$attrs"
-        :class="`px-4 py-1 bg-${color} text-${textColor}`"
+        :class="`px-4 py-2 text-sm uppercase bg-${color} text-${textColor}`"
     >
         <template v-if="label">
             {{ label }}
@@ -30,11 +30,11 @@ export default defineComponent({
         },
         color: {
             type: String,
-            default: "gray-100",
+            default: "primary",
         },
         textColor: {
             type: String,
-            default: "gray-700",
+            default: "white",
         },
         loading: {
             type: Boolean,
