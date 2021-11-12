@@ -13,8 +13,10 @@ function handleError(error: any) {
         "Error on request"
     );
 
+    const status = lodash.get(error, "response.status", 501);
+
     notify.add({
-        color: "red-500",
+        color: status === 400 ? "yellow-500" : "red-500",
         message,
     });
 
@@ -22,12 +24,12 @@ function handleError(error: any) {
 }
 
 api.interceptors.request.use(
-    (args) => args,
+    (config) => config,
     (error) => handleError(error)
 );
 
 api.interceptors.response.use(
-    (args) => args,
+    (config) => config,
     (error) => handleError(error)
 );
 
