@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { defineProps, defineEmits, computed, ref } from "vue";
+import { computed, ref } from "vue";
 
 const props = defineProps({
     modelValue: {
@@ -23,15 +23,19 @@ const model = computed({
 </script>
 
 <template>
-    <div
-        v-if="model"
-        class="fixed inset-0 flex items-center justify-center z-fullscreen"
-    >
-        <div
-            class="absolute inset-0 bg-black opacity-20"
-            style="z-index: -1"
-            @click="model = false"
-        />
+    <div v-if="model" class="y-dialog">
+        <div class="y-dialog-overlay" @click="model = false" />
         <slot />
     </div>
 </template>
+
+<style lang="scss">
+.y-dialog {
+    @apply fixed inset-0 flex items-center justify-center z-50;
+
+    .y-dialog-overlay {
+        @apply absolute inset-0 bg-black opacity-20;
+        z-index: -1;
+    }
+}
+</style>
