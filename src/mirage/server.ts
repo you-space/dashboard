@@ -1,4 +1,10 @@
-import { Server, Model, Factory, Registry, Response } from "miragejs";
+import {
+    Model,
+    Factory,
+    Response,
+    createServer as baseCreateServer,
+} from "miragejs";
+import { kebabCase } from "lodash";
 import faker from "faker";
 
 const youtubeIds = [
@@ -32,33 +38,37 @@ const videoFactory = Factory.extend({
 });
 
 const models = {
-    video: Model,
-    user: Model,
+    video: Model.extend({}),
+    user: Model.extend({}),
+    plugin: Model.extend({}),
 };
 
 const factories = {
     video: videoFactory,
     user: userFactory,
+    plugin: Factory.extend({
+        id: () => kebabCase(faker.lorem.word()),
+        title: () => faker.name.title(),
+        description: () => faker.lorem.sentence(),
+        active: () => faker.datatype.boolean(),
+    }),
 };
 
-type MirageRegistry = Registry<typeof models, typeof factories>;
-
 export function createServer({ environment = "development" } = {}) {
-    return new Server<MirageRegistry>({
+    return baseCreateServer<typeof models, typeof factories>({
         environment,
-        models: models,
-        factories: {
-            user: userFactory,
-            video: videoFactory,
-        },
-        seeds(server: Server<MirageRegistry>) {
+        models,
+        factories,
+        seeds(server) {
             server.create("user", {
                 name: "admin",
                 username: "admin",
                 password: "ys-123",
                 email: "admin@teste.com",
             });
+
             server.createList("video", 20);
+            server.createList("plugin", 5);
         },
         routes() {
             this.namespace = "/api/v1";
@@ -67,6 +77,74 @@ export function createServer({ environment = "development" } = {}) {
             this.get("videos", (schema) => ({
                 data: schema.db.videos,
             }));
+
+            this.get("plugins", (schema) => ({
+                data: schema.db.plugins,
+            }));
+
+            this.post("plugins", (schema, request) => {
+                const body = JSON.parse(request.requestBody);
+
+                if (!body.gitUrl.includes(".git")) {
+                    return new Response(
+                        400,
+                        {},
+                        {
+                            message: "Invalid git url",
+                        }
+                    );
+                }
+
+                schema.create("plugin", {
+                    title: body.gitUrl.split("/").pop().replace(".git", ""),
+                });
+
+                return {
+                    message: "Plugin download",
+                };
+            });
+
+            this.patch("plugins/:id", (schema, request) => {
+                const plugin = (schema as any).plugins.find(request.params.id);
+
+                if (!plugin) {
+                    return new Response(
+                        404,
+                        {},
+                        {
+                            message: "Plugin not found",
+                        }
+                    );
+                }
+
+                const body = JSON.parse(request.requestBody);
+
+                plugin.update(body);
+
+                return {
+                    message: "Plugin updated",
+                };
+            });
+
+            this.delete("plugins/:id", (schema, request) => {
+                const plugin = (schema as any).plugins.find(request.params.id);
+
+                if (!plugin) {
+                    return new Response(
+                        404,
+                        {},
+                        {
+                            message: "Plugin not found",
+                        }
+                    );
+                }
+
+                plugin.destroy();
+
+                return {
+                    message: "Plugin updated",
+                };
+            });
 
             this.get("auth/user", (schema) =>
                 schema.db.users.findBy({ username: "admin" })

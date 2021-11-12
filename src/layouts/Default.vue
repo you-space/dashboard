@@ -7,6 +7,11 @@ const pages = ref([
         to: "/",
         icon: "home",
     },
+    {
+        label: "Plugins",
+        to: "/plugins",
+        icon: "dice",
+    },
 ]);
 </script>
 <template>
@@ -45,7 +50,7 @@ const pages = ref([
                 </y-item>
             </y-list>
         </y-layout-drawer>
-        <y-layout-content>
+        <y-layout-content class="bg-gray-100">
             <slot />
         </y-layout-content>
     </y-layout>
