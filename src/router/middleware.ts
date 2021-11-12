@@ -1,6 +1,8 @@
 import { MiddlewareContext } from "@/types";
 
-export default function middleware({ to, store }: MiddlewareContext) {
+export default async function middleware({ to, store }: MiddlewareContext) {
+    await store.dispatch("auth/login");
+
     const { authenticated } = store.state.auth;
 
     const { path } = to;

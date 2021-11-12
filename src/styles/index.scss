@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 :root {
-    --color-primary: theme("colors.blue.500");
+    --theme-primary: theme("colors.blue.500");
 }
 
 body {
@@ -13,8 +13,9 @@ body {
 .notify {
     --notify-color: theme("colors.primary");
     --notify-duration: 3000;
-    @apply fixed bottom-0 left-0;
+    @apply fixed top-0 right-0;
     @apply my-4 mx-4 p-4;
+    @apply w-72;
     @apply text-white text-sm;
     @apply rounded-md shadow-lg;
     @apply transition-opacity;

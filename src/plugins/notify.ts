@@ -1,7 +1,6 @@
 import { AppContext } from "@/types";
 import colors from "tailwindcss/colors";
 import lodash from "lodash";
-
 interface NotifyOptions {
     message: string;
     color?: string;
@@ -83,4 +82,6 @@ function createNotify() {
 
 export const notify = createNotify();
 
-export default function boot({}: AppContext) {}
+export default function boot({ app }: AppContext) {
+    app.config.globalProperties.$notify = notify;
+}
