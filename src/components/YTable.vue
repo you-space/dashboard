@@ -16,6 +16,10 @@ defineProps({
         type: Array as PropType<any[]>,
         default: () => [],
     },
+    loading: {
+        type: Boolean,
+        default: false,
+    },
 });
 </script>
 
@@ -31,13 +35,25 @@ defineProps({
                 </th>
             </tr>
         </thead>
-        <tbody>
+
+        <tbody class="relative">
+            <div class="absolute inset-0" v-if="loading">
+                <y-progress-bar />
+            </div>
+
             <tr v-if="!items.length">
                 <td :colspan="headers.length" class="text-center">No items</td>
             </tr>
+
             <tr v-for="item in items">
                 <td v-for="header in headers">
-                    {{ item[header.value] }}
+                    <slot
+                        :name="`item-${header.value}`"
+                        :item="item"
+                        :header="header"
+                    >
+                        {{ item[header.value] }}
+                    </slot>
                 </td>
             </tr>
         </tbody>
