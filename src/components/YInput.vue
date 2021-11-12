@@ -1,6 +1,6 @@
 <template>
-    <label :class="['yt-input', $attrs.class]">
-        <div v-if="label" :class="`text-${innerColor} mb-2 font-bold`">
+    <label :class="['y-input', $attrs.class]" :style="styles">
+        <div v-if="label" class="y-input-label">
             {{ label }}
         </div>
 
@@ -9,7 +9,7 @@
         </slot>
 
         <template v-if="message">
-            <div :class="`text-${innerColor}`" class="my-2">
+            <div class="y-input-messages">
                 {{ message }}
             </div>
         </template>
@@ -18,10 +18,11 @@
     </label>
 </template>
 <script lang="ts">
-import { pick } from "lodash";
+import lodash from "lodash";
 import { useModel } from "@/compositions/helpers";
-import { defineComponent, inject, PropType, Ref, ref } from "vue";
+import { defineComponent, inject, PropType, ref, computed, watch } from "vue";
 import { inputKey } from "./YForm.vue";
+import colors from "tailwindcss/colors";
 
 interface Rule {
     (value: any): boolean | string;
@@ -44,7 +45,7 @@ export default defineComponent({
         },
         color: {
             type: String,
-            default: "gray-400",
+            default: "gray-500",
         },
         focusColor: {
             type: String,
@@ -56,8 +57,7 @@ export default defineComponent({
         const model = useModel(props, "modelValue", emit);
 
         const message = ref("");
-        const innerColor = ref(props.color);
-        const innerFocusColor = ref(props.focusColor);
+        const error = ref(false);
 
         function validate() {
             const result = props.rules.reduce<string | boolean>(
@@ -68,14 +68,12 @@ export default defineComponent({
 
             if (typeof result === "boolean") {
                 message.value = "";
-                innerColor.value = props.color;
-                innerFocusColor.value = props.focusColor;
+                error.value = false;
                 return result;
             }
 
             message.value = result;
-            innerColor.value = "red-500";
-            innerFocusColor.value = "red-500";
+            error.value = true;
 
             return result;
         }
@@ -86,38 +84,72 @@ export default defineComponent({
             });
         }
 
+        function getColor(name: string): string {
+            const color = lodash.get(colors, name.replace("-", ".") || "");
+
+            return color ? color : name;
+        }
+
+        const styles = computed<any>(() => ({
+            "--color": error.value
+                ? getColor("red-500")
+                : getColor(props.color),
+        }));
+
+        watch(() => model.value, validate);
+
         const inputAttrs = {
             ...attrs,
-            class: `border-${innerColor.value} focus:border-${innerFocusColor.value}`,
+            class: undefined,
             style: undefined,
-            onChange: validate,
         };
 
         return {
             message,
             model,
-            innerColor,
-            innerFocusColor,
 
             inputAttrs,
-            pick,
+            styles,
 
             validate,
         };
     },
 });
 </script>
-<style lang="postcss">
-.yt-input {
+<style lang="scss">
+.y-input {
+    --color: theme("colors.gray.500");
+    --dark-color: theme("colors.gray.700");
     @apply flex flex-wrap;
     @apply w-full;
-}
 
-.yt-input input {
-    @apply focus:outline-none;
-    @apply w-full rounded px-4 py-2;
-    @apply border border-gray-500;
-    @apply dark:focus:bg-gray-500 dark:bg-gray-700 dark:text-white dark:border-gray-700;
-    @apply transition-colors;
+    .y-input-label {
+        @apply font-bold;
+        @apply mb-2;
+        color: var(--color);
+    }
+
+    .y-input-messages {
+        @apply my-2;
+        color: var(--color);
+    }
+
+    input {
+        @apply focus:outline-none;
+        @apply w-full rounded px-4 py-2;
+        @apply border;
+        @apply dark:text-white;
+        @apply transition-colors;
+
+        border-color: var(--color);
+
+        &.dark {
+            border-color: var(--dark-color);
+        }
+
+        &.y-input-error {
+            border-color: theme("colors.red.500");
+        }
+    }
 }
 </style>
