@@ -20,7 +20,7 @@ export default defineComponent({
             type: Boolean,
             default: false,
         },
-        activeClass: {
+        exactActiveClass: {
             type: String,
             default: "y-item-active",
         },
@@ -42,7 +42,7 @@ export default defineComponent({
 
         const attrs = {
             class: classes,
-            activeClass: props.to ? props.activeClass : undefined,
+            exactActiveClass: props.to ? props.exactActiveClass : undefined,
         };
 
         return {
