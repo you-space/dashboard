@@ -11,7 +11,7 @@ import { dialog } from "@/plugins/dialog";
         @update:model-value="d.onCancel"
         :key="d.id"
     >
-        <y-card class="max-w-lg">
+        <y-card class="max-w-sm">
             <y-card-section v-if="d.title" class="font-bold text-lg uppercase">
                 {{ d.title }}
             </y-card-section>

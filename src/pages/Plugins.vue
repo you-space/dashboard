@@ -65,7 +65,7 @@ async function addPlugin() {
 }
 
 async function deletePlugin(id: Plugin["id"]) {
-    const confirm = await dialog.ask("Are you sure?");
+    const confirm = await dialog.confirm("Are you sure?");
 
     if (!confirm) {
         return;

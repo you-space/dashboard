@@ -21,7 +21,7 @@ function createDialog() {
         }
     }
 
-    function ask(title: string, content?: string) {
+    function confirm(title: string, content?: string) {
         return new Promise<boolean>((resolve) => {
             const id = Math.random().toString();
 
@@ -45,7 +45,7 @@ function createDialog() {
 
     return {
         components,
-        ask,
+        confirm,
     };
 }
 
