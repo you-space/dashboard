@@ -1,9 +1,5 @@
 <template>
-    <button
-        class="yt-btn"
-        v-bind="$attrs"
-        :class="`px-4 py-2 text-sm uppercase bg-${color} text-${textColor}`"
-    >
+    <button class="yt-btn" v-bind="$attrs" :class="classes">
         <template v-if="label">
             {{ label }}
         </template>
@@ -19,31 +15,45 @@
         </div>
     </button>
 </template>
-<script lang="ts">
-import { defineComponent } from "vue";
+<script lang="ts" setup>
+import { PropType, computed } from "vue";
 
-export default defineComponent({
-    props: {
-        label: {
-            type: String,
-            default: "",
-        },
-        color: {
-            type: String,
-            default: "primary",
-        },
-        textColor: {
-            type: String,
-            default: "white",
-        },
-        loading: {
-            type: Boolean,
-            default: false,
-        },
+const props = defineProps({
+    label: {
+        type: String,
+        default: "",
+    },
+    color: {
+        type: String,
+        default: "primary",
+    },
+    textColor: {
+        type: String,
+        default: "white",
+    },
+    loading: {
+        type: Boolean,
+        default: false,
+    },
+    size: {
+        type: String as PropType<"sm" | "md">,
+        default: "md",
     },
 });
+
+const sizes = {
+    sm: "py-2 px-3 text-sm",
+    md: "py-2 px-4 text-sm",
+};
+
+const classes = computed(() => [
+    "uppercase",
+    `bg-${props.color}`,
+    `text-${props.textColor}`,
+    sizes[props.size] || sizes.md,
+]);
 </script>
-<style lang="postcss">
+<style lang="scss">
 .yt-btn {
     @apply relative;
     @apply rounded cursor-pointer;
