@@ -12,6 +12,7 @@
         "@fortawesome/vue-fontawesome": "^3.0.0-5",
         "axios": "^0.21.4",
         "lodash": "^4.17.21",
+        "moment": "^2.29.1",
         "vue": "^3.2.13",
         "vue-router": "^4.0.12",
         "vuex": "^4.0.2"
