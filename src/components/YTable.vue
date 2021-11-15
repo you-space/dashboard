@@ -1,10 +1,12 @@
 <script setup lang="ts">
 import { PropType } from "vue";
+import lodash from "lodash";
 
 export interface Header {
     label: string;
     value: string;
     class?: string;
+    format?: (value: any) => string;
 }
 
 defineProps({
@@ -21,6 +23,14 @@ defineProps({
         default: false,
     },
 });
+
+function getValue(item: any, header: Header) {
+    if (header.format) {
+        return header.format(item[header.value]);
+    }
+
+    return lodash.get(item, header.value);
+}
 </script>
 
 <template>
@@ -52,7 +62,7 @@ defineProps({
                         :item="item"
                         :header="header"
                     >
-                        {{ item[header.value] }}
+                        {{ getValue(item, header) }}
                     </slot>
                 </td>
             </tr>
