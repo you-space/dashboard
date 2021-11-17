@@ -35,6 +35,11 @@ export class VideoService {
 
         return data;
     }
+    public async destroy(id: number) {
+        const { data } = await api.delete(`/videos/${id}`);
+
+        return data;
+    }
 }
 
 export const key: InjectionKey<VideoService> = Symbol("space:videos");

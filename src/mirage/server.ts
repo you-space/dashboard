@@ -2,6 +2,9 @@ import { Response, createServer as baseCreateServer } from "miragejs";
 
 import models from "./models";
 import factories from "./factories";
+import VideosController from "./controllers/VideosController";
+import PluginsController from "./controllers/PluginsController";
+import AuthController from "./controllers/AuthController";
 
 export function createServer({ environment = "development" } = {}) {
     return baseCreateServer<typeof models, typeof factories>({
@@ -21,122 +24,24 @@ export function createServer({ environment = "development" } = {}) {
         },
         routes() {
             this.namespace = "/api/v1";
+
             this.timing = 500;
 
-            this.get("videos", (schema, request) => {
-                const page = Number(request.queryParams.page) || 1;
-                const limit = Number(request.queryParams.limit) || 10;
-                const all = schema.db.videos;
+            this.get("videos", VideosController.index);
 
-                const videos = all.slice((page - 1) * limit, page * limit);
+            this.get("plugins", PluginsController.index);
 
-                return {
-                    meta: {
-                        total: all.length,
-                        currentPage: page,
-                        lastPage: Math.ceil(all.length / limit),
-                    },
-                    data: videos,
-                };
-            });
+            this.post("plugins", PluginsController.store);
 
-            this.get("plugins", (schema) => ({
-                data: schema.db.plugins,
-            }));
+            this.patch("plugins/:id", PluginsController.update);
 
-            this.post("plugins", (schema, request) => {
-                const body = JSON.parse(request.requestBody);
+            this.delete("plugins/:id", PluginsController.destroy);
 
-                if (!body.gitUrl.includes(".git")) {
-                    return new Response(
-                        400,
-                        {},
-                        {
-                            message: "Invalid git url",
-                        }
-                    );
-                }
+            this.get("auth/user", AuthController.show);
 
-                schema.create("plugin", {
-                    title: body.gitUrl.split("/").pop().replace(".git", ""),
-                });
+            this.post("auth/logout", AuthController.logout);
 
-                return {
-                    message: "Plugin download",
-                };
-            });
-
-            this.patch("plugins/:id", (schema, request) => {
-                const plugin = (schema as any).plugins.find(request.params.id);
-
-                if (!plugin) {
-                    return new Response(
-                        404,
-                        {},
-                        {
-                            message: "Plugin not found",
-                        }
-                    );
-                }
-
-                const body = JSON.parse(request.requestBody);
-
-                plugin.update(body);
-
-                return {
-                    message: "Plugin updated",
-                };
-            });
-
-            this.delete("plugins/:id", (schema, request) => {
-                const plugin = (schema as any).plugins.find(request.params.id);
-
-                if (!plugin) {
-                    return new Response(
-                        404,
-                        {},
-                        {
-                            message: "Plugin not found",
-                        }
-                    );
-                }
-
-                plugin.destroy();
-
-                return {
-                    message: "Plugin updated",
-                };
-            });
-
-            this.get("auth/user", (schema) =>
-                schema.db.users.findBy({ username: "admin" })
-            );
-
-            this.post(
-                "auth/logout",
-                () => new Response(200, {}, { message: "Logout success" })
-            );
-
-            this.post("auth/login", (schema, request) => {
-                const data = JSON.parse(request.requestBody);
-
-                const user = schema.db.users.findBy({
-                    username: data.uuid,
-                    password: data.password,
-                });
-
-                if (!user) {
-                    return new Response(
-                        400,
-                        {},
-                        {
-                            message: "E_INVALID_AUTH_UID: User not found",
-                        }
-                    );
-                }
-
-                return new Response(200, {}, { message: "Login success" });
-            });
+            this.post("auth/login", AuthController.login);
         },
     });
 }
