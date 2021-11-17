@@ -15,6 +15,14 @@ const props = defineProps({
         type: Number,
         default: 5,
     },
+    color: {
+        type: String,
+        default: "gray-500",
+    },
+    selectedColor: {
+        type: String,
+        default: "gray-500",
+    },
 });
 
 const emit = defineEmits(["update:modelValue"]);
@@ -29,8 +37,6 @@ const visiblePages = computed(() => {
 
     const start = Math.max(0, current - length);
     const end = Math.min(pages.length, current + length + 1);
-
-    console.log(start, current, end);
 
     if (model.value === 1) {
         return pages.slice(0, props.length);
@@ -52,8 +58,8 @@ const visiblePages = computed(() => {
             v-if="model > 1"
             class="mx-1"
             size="sm"
-            color="white"
-            text-color="gray-500"
+            :color="color"
+            outlined
             @click="model--"
         >
             <y-icon name="chevron-left" />
@@ -63,8 +69,8 @@ const visiblePages = computed(() => {
             <y-btn
                 class="mx-1"
                 size="sm"
-                color="white"
-                text-color="gray-500"
+                :color="color"
+                outlined
                 @click="model = 1"
             >
                 {{ 1 }}
@@ -78,8 +84,8 @@ const visiblePages = computed(() => {
             :key="page"
             class="mx-1"
             size="sm"
-            :color="model === page ? 'primary' : 'white'"
-            :text-color="model === page ? 'white' : 'gray-500'"
+            :color="model === page ? selectedColor : color"
+            :outlined="model !== page"
             @click="model = page"
         >
             {{ page }}
@@ -91,8 +97,8 @@ const visiblePages = computed(() => {
             <y-btn
                 class="mx-1"
                 size="sm"
-                color="white"
-                text-color="gray-500"
+                :color="color"
+                outlined
                 @click="model = totalPages"
             >
                 {{ totalPages }}
@@ -103,8 +109,8 @@ const visiblePages = computed(() => {
             v-if="model < totalPages"
             class="mx-1"
             size="sm"
-            color="white"
-            text-color="gray-500"
+            :color="color"
+            outlined
             @click="model++"
         >
             <y-icon name="chevron-right" />
