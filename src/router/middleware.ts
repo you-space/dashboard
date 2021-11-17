@@ -1,7 +1,9 @@
 import { MiddlewareContext } from "@/types";
 
 export default async function middleware({ to, store }: MiddlewareContext) {
-    await store.dispatch("auth/login");
+    if (!store.state.auth.authenticated) {
+        await store.dispatch("auth/login");
+    }
 
     const { authenticated } = store.state.auth;
 
