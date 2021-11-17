@@ -6,7 +6,7 @@
 
 <script lang="ts">
 import { defineComponent, inject, computed, Ref, watch, ref } from "vue";
-import { convertNumberToPixel } from "../compositions/helpers";
+import { css } from "../compositions/helpers";
 
 export default defineComponent({
     props: {
@@ -35,8 +35,8 @@ export default defineComponent({
 
         const style = computed(() => {
             return {
-                height: convertNumberToPixel(drawer?.value.height || "100%"),
-                width: convertNumberToPixel(innerWidth.value),
+                height: css.toMeasure(drawer?.value.height || "100%"),
+                width: css.toMeasure(innerWidth.value),
             };
         });
 

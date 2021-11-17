@@ -1,12 +1,27 @@
 import { computed } from "vue";
 
-export function convertNumberToPixel(value: number) {
-    if (typeof value === "string") {
+function isPixelMeasure(value: string): boolean {
+    return value.endsWith("px");
+}
+function isPercentageMeasure(value: string): boolean {
+    return value.endsWith("%");
+}
+
+function toMeasure(value: number | string) {
+    if (isPixelMeasure(value.toString())) {
+        return value;
+    }
+
+    if (isPercentageMeasure(value.toString())) {
         return value;
     }
 
     return `${value}px`;
 }
+
+export const css = {
+    toMeasure: toMeasure,
+};
 
 export function useModel<T = any>(
     props: Record<string, any>,

@@ -8,6 +8,11 @@ const pages = ref([
         icon: "home",
     },
     {
+        label: "Videos",
+        to: "/videos",
+        icon: "play-circle",
+    },
+    {
         label: "Plugins",
         to: "/plugins",
         icon: "dice",
