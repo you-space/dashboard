@@ -1,4 +1,4 @@
-import { Request } from "miragejs";
+import { Request, Response } from "miragejs";
 import { Schema } from "@/mirage/types";
 
 class VideosController {
@@ -16,6 +16,26 @@ class VideosController {
                 lastPage: Math.ceil(all.length / limit),
             },
             data: videos,
+        };
+    }
+
+    public destroy(schema: Schema, request: Request) {
+        const video = schema.find("video", request.params.id);
+
+        if (!video) {
+            return new Response(
+                404,
+                {},
+                {
+                    message: "Video not found",
+                }
+            );
+        }
+
+        video.destroy();
+
+        return {
+            message: "Video deleted",
         };
     }
 }

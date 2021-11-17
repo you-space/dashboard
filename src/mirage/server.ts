@@ -29,6 +29,8 @@ export function createServer({ environment = "development" } = {}) {
 
             this.get("videos", VideosController.index);
 
+            this.delete("videos/:id", VideosController.destroy);
+
             this.get("plugins", PluginsController.index);
 
             this.post("plugins", PluginsController.store);

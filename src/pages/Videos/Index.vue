@@ -3,6 +3,8 @@ import { ref, watch } from "vue";
 
 import { useVideos, Video, Image } from "@/compositions/videos";
 import { useMoment } from "@/plugins/moment";
+import { dialog } from "@/plugins/dialog";
+import { notify } from "@/plugins/notify";
 
 interface VideoWithThumbnail extends Video {
     thumbnail?: Image;
@@ -53,6 +55,9 @@ const headers = [
         format: (publishedAt: Video["publishedAt"]) =>
             moment(publishedAt).format("L LT"),
     },
+    {
+        name: "actions",
+    },
 ];
 
 async function setVideos() {
@@ -63,32 +68,36 @@ async function setVideos() {
             page: meta.value.currentPage,
         })
         .then((response) => {
-            items.value = response.data.map((v) => {
-                const thumbnail = v.images.find(
+            items.value = response.data.map((v) => ({
+                ...v,
+                thumbnail: v.images.find(
                     (img) => img.name === "thumbnail:default"
-                );
+                ),
+            }));
 
-                if (thumbnail) {
-                    return {
-                        ...v,
-                        thumbnail: thumbnail,
-                    };
-                }
-
-                return v;
-            });
             meta.value.lastPage = response.meta.lastPage;
         })
-        .finally(() =>
-            setTimeout(() => {
-                loading.value = false;
-            }, 800)
-        );
+        .finally(() => setTimeout(() => (loading.value = false), 800));
 }
 
 watch(() => meta.value.currentPage, setVideos, {
     immediate: true,
 });
+
+async function deleteVideo(id: Video["id"]) {
+    const confirm = await dialog.confirm("Are you sure?");
+
+    if (!confirm) {
+        return;
+    }
+
+    await service
+        .destroy(id)
+        .then((response) =>
+            notify.add({ message: response.message, color: "green-500" })
+        )
+        .finally(setVideos);
+}
 </script>
 
 <template>
@@ -116,6 +125,14 @@ watch(() => meta.value.currentPage, setVideos, {
                         >
                             <y-icon name="video" />
                         </div>
+                    </template>
+
+                    <template #item-actions="{ item }">
+                        <y-icon
+                            clickable
+                            name="trash"
+                            @click="deleteVideo(item.id)"
+                        />
                     </template>
                 </y-table>
 
