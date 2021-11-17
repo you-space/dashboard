@@ -1,58 +1,7 @@
-import {
-    Model,
-    Factory,
-    Response,
-    createServer as baseCreateServer,
-} from "miragejs";
-import { kebabCase } from "lodash";
-import faker from "faker";
+import { Response, createServer as baseCreateServer } from "miragejs";
 
-const youtubeIds = [
-    "6stlCkUDG_s",
-    "gsnqXt7d1mU",
-    "eg2g6FPsdLI",
-    "4N8oOj_aue8",
-    "oe70Uhjc_F4&list",
-    "HccqokXN2n8",
-    "Jh6jZftn2e0",
-    "HHBsvKnCkwI",
-    "NpdQkEPELh4",
-    "ZjbFDYoE-OY",
-];
-
-const userFactory = Factory.extend({
-    name: () => faker.name.findName(),
-    username: () => faker.internet.userName(),
-    email: () => faker.internet.email(),
-    password: () => faker.internet.password(),
-});
-
-const videoFactory = Factory.extend({
-    title: faker.name.title,
-    description: faker.lorem.text,
-    sourceId: () => faker.random.arrayElement(youtubeIds),
-    src() {
-        return `https://www.youtube.com/embed/${(this as any).sourceId}`;
-    },
-    publishedAt: faker.date.past,
-});
-
-const models = {
-    video: Model.extend({}),
-    user: Model.extend({}),
-    plugin: Model.extend({}),
-};
-
-const factories = {
-    video: videoFactory,
-    user: userFactory,
-    plugin: Factory.extend({
-        id: () => kebabCase(faker.lorem.word()),
-        title: () => faker.name.title(),
-        description: () => faker.lorem.sentence(),
-        active: () => faker.datatype.boolean(),
-    }),
-};
+import models from "./models";
+import factories from "./factories";
 
 export function createServer({ environment = "development" } = {}) {
     return baseCreateServer<typeof models, typeof factories>({
@@ -67,16 +16,29 @@ export function createServer({ environment = "development" } = {}) {
                 email: "admin@teste.com",
             });
 
-            server.createList("video", 20);
+            server.createList("video", 100);
             server.createList("plugin", 5);
         },
         routes() {
             this.namespace = "/api/v1";
             this.timing = 500;
 
-            this.get("videos", (schema) => ({
-                data: schema.db.videos,
-            }));
+            this.get("videos", (schema, request) => {
+                const page = Number(request.queryParams.page) || 1;
+                const limit = Number(request.queryParams.limit) || 10;
+                const all = schema.db.videos;
+
+                const videos = all.slice((page - 1) * limit, page * limit);
+
+                return {
+                    meta: {
+                        total: all.length,
+                        currentPage: page,
+                        lastPage: Math.ceil(all.length / limit),
+                    },
+                    data: videos,
+                };
+            });
 
             this.get("plugins", (schema) => ({
                 data: schema.db.plugins,
