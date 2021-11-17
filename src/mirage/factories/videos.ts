@@ -18,7 +18,7 @@ const videoFactory = Factory.extend({
     title: faker.name.title,
     description: faker.lorem.text,
     sourceId: () => faker.random.arrayElement(youtubeIds),
-    source: () => faker.random.arrayElement(["youtube", "vimeo"]),
+    source: "youtube",
     src() {
         return `https://www.youtube.com/embed/${(this as any).sourceId}`;
     },
@@ -28,9 +28,20 @@ const videoFactory = Factory.extend({
     }),
     views: () => [
         {
-            count: faker.datatype.number({ min: 0, max: 100 }),
+            count: faker.datatype.number({ min: 0, max: 10000 }),
         },
     ],
+    images: () =>
+        faker.random.arrayElement([
+            [
+                {
+                    name: "thumbnail:default",
+                    src: faker.image.imageUrl(),
+                    alt: faker.lorem.word(),
+                },
+            ],
+            [],
+        ]),
 });
 
 export default videoFactory;

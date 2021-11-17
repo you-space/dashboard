@@ -2,18 +2,36 @@ import { ServerPagination } from "@/types";
 import { InjectionKey, provide, inject } from "vue";
 import { api } from "./axios";
 
+export interface View {
+    count: number;
+}
+export interface Image {
+    name: string;
+    src: string;
+    alt: string;
+}
+
 export interface Video {
     id: number;
     title: string;
     src: string;
     description: string;
-    createdAt: string;
-    updatedAt: string;
+    publishedAt: string;
+
+    views: View[];
+    images: Image[];
+}
+
+interface IndexFilters {
+    page?: number;
+    limit?: number;
 }
 
 export class VideoService {
-    public async index() {
-        const { data } = await api.get<ServerPagination<Video>>("/videos");
+    public async index(filters: IndexFilters) {
+        const { data } = await api.get<ServerPagination<Video>>("/videos", {
+            params: filters,
+        });
 
         return data;
     }

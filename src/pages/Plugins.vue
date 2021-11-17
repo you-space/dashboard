@@ -24,11 +24,12 @@ const headers = [
         value: "description",
     },
     {
+        name: "active",
         label: "Active",
         value: "active",
     },
     {
-        label: "",
+        name: "actions",
         value: "actions",
     },
 ];

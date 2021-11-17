@@ -1,12 +1,14 @@
 <script setup lang="ts">
-import { PropType } from "vue";
+import { PropType, StyleValue } from "vue";
 import lodash from "lodash";
 
 export interface Header {
+    name: string;
     label: string;
     value: string;
     class?: string;
     format?: (value: any) => string;
+    style?: StyleValue;
 }
 
 defineProps({
@@ -40,6 +42,7 @@ function getValue(item: any, header: Header) {
                 <th
                     v-for="header in headers"
                     :class="header.class || 'text-left'"
+                    :style="header.style"
                 >
                     {{ header.label }}
                 </th>
@@ -58,9 +61,10 @@ function getValue(item: any, header: Header) {
             <tr v-for="item in items">
                 <td v-for="header in headers">
                     <slot
-                        :name="`item-${header.value}`"
+                        :name="`item-${header.name}`"
                         :item="item"
                         :header="header"
+                        :value="getValue(item, header)"
                     >
                         {{ getValue(item, header) }}
                     </slot>
