@@ -7,6 +7,7 @@ import { useStore } from "@/store";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
 import { api } from "@/compositions/axios";
+import { notify } from "@/plugins/notify";
 
 const store = useStore();
 const router = useRouter();
@@ -15,9 +16,14 @@ const uuid = ref("");
 const password = ref("");
 
 async function login() {
-    await api.post("/auth/login", {
+    const { data } = await api.post("/auth/login", {
         uuid: uuid.value,
         password: password.value,
+    });
+
+    notify.add({
+        color: "green-500",
+        message: data.message,
     });
 
     await store.dispatch("auth/login", {
