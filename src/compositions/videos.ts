@@ -25,6 +25,7 @@ export interface Video {
 interface IndexFilters {
     page?: number;
     limit?: number;
+    include?: string[];
 }
 
 export class VideoService {

@@ -24,6 +24,10 @@ const items = ref<VideoWithThumbnail[]>([]);
 
 const headers = [
     {
+        label: "#",
+        value: "id",
+    },
+    {
         name: "thumbnail",
         label: "",
         value: "thumbnail",
@@ -41,7 +45,7 @@ const headers = [
     },
     {
         label: "Visibility",
-        value: "visibility.name",
+        value: "visibility",
     },
     {
         label: "Views",
@@ -66,6 +70,7 @@ async function setVideos() {
     await service
         .index({
             page: meta.value.currentPage,
+            include: ["images", "views"],
         })
         .then((response) => {
             items.value = response.data.map((v) => ({
