@@ -7,6 +7,9 @@
         "index.js",
         "README.md"
     ],
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "dev": "vite",
         "tsc": "vue-tsc --noEmit",
