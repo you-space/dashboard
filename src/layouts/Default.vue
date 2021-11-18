@@ -30,9 +30,9 @@ const pages = ref([
                 @click="drawer = !drawer"
             />
 
-            <div class="font-bold text-lg">
+            <a href="/" class="font-bold text-lg">
                 {{ $store.state.app.name }}
-            </div>
+            </a>
         </y-layout-toolbar>
         <y-layout-drawer v-model="drawer">
             <y-list>
