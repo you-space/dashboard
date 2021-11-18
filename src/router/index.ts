@@ -4,7 +4,7 @@ import routes from "./routes";
 
 export function createRouter() {
     const router = BaseCreateRouter({
-        history: createWebHistory(),
+        history: createWebHistory(import.meta.env.BASE_URL),
         routes,
     });
 

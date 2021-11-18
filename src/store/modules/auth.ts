@@ -20,7 +20,7 @@ const mutations: MutationTree<State> = {
 
 const actions: ActionTree<State, RootState> = {
     async login({ commit, dispatch }) {
-        return api
+        await api
             .get("/auth/user")
             .then((response) => {
                 commit("setAuthenticated", true);
@@ -28,11 +28,14 @@ const actions: ActionTree<State, RootState> = {
             })
             .catch(() => dispatch("logout"));
     },
-    async logout({ commit, dispatch }) {
-        return api.post("/auth/logout").finally(() => {
-            commit("setAuthenticated", true);
-            commit("setUser", null);
-        });
+    async logout({ commit }) {
+        return api
+            .post("/auth/logout")
+            .finally(() => {
+                commit("setAuthenticated", false);
+                commit("setUser", null);
+            })
+            .catch(() => {});
     },
 };
 

@@ -6,12 +6,20 @@ const api = axios.create({
     baseURL: "/api/v1",
 });
 
+const ignorePaths = ["/auth/user", "/auth/logout"];
+
 function handleError(error: any) {
     const message = lodash.get(
         error,
         "response.data.message",
         "Error on request"
     );
+
+    const url = lodash.get(error, "config.url", "");
+
+    if (ignorePaths.includes(url)) {
+        return;
+    }
 
     const status = lodash.get(error, "response.status", 501);
 

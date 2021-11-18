@@ -1,10 +1,21 @@
 {
-    "name": "@youspace/dashboard",
-    "version": "0.0.0",
+    "name": "@you-space/dashboard",
+    "version": "0.1.0",
+    "main": "index.js",
+    "files": [
+        "dist",
+        "index.js",
+        "README.md"
+    ],
+    "publishConfig": {
+        "access": "public"
+    },
     "scripts": {
         "dev": "vite",
-        "build": "vue-tsc --noEmit && vite build",
-        "serve": "vite preview"
+        "tsc": "vue-tsc --noEmit",
+        "build": "vite build",
+        "serve": "vite preview",
+        "prepublish": "npm run tsc && npm run build"
     },
     "dependencies": {
         "@fortawesome/fontawesome-svg-core": "^1.2.36",

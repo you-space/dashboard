@@ -7,7 +7,9 @@ import { createStore, key } from "./store";
 import middleware from "./router/middleware";
 import "./styles/index.scss";
 
-if (process.env.NODE_ENV === "development") {
+const { DEV, VITE_USE_PROXY } = import.meta.env;
+
+if (DEV && !VITE_USE_PROXY) {
     createServer();
 }
 
