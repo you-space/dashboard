@@ -1,7 +1,12 @@
 {
-    "name": "@youspace/dashboard",
+    "name": "@you-space/dashboard",
     "version": "0.0.0",
     "main": "index.js",
+    "files": [
+        "dist",
+        "index.js",
+        "README.md"
+    ],
     "scripts": {
         "dev": "vite",
         "tsc": "vue-tsc --noEmit",
