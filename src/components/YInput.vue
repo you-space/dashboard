@@ -117,6 +117,13 @@ export default defineComponent({
 });
 </script>
 <style lang="scss">
+.dark .y-input {
+    input {
+        border-color: var(--dark-color);
+        background-color: var(--dark-color);
+    }
+}
+
 .y-input {
     --color: theme("colors.gray.500");
     --dark-color: theme("colors.gray.700");
@@ -125,7 +132,8 @@ export default defineComponent({
 
     .y-input-label {
         @apply font-bold;
-        @apply mb-2;
+        @apply mb-4;
+        @apply dark:text-white;
         color: var(--color);
     }
 
@@ -142,10 +150,6 @@ export default defineComponent({
         @apply transition-colors;
 
         border-color: var(--color);
-
-        &.dark {
-            border-color: var(--dark-color);
-        }
 
         &.y-input-error {
             border-color: theme("colors.red.500");

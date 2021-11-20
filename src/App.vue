@@ -29,3 +29,9 @@ import { dialog } from "@/plugins/dialog";
         </y-card>
     </y-dialog>
 </template>
+
+<style lang="scss">
+body {
+    @apply text-gray-800 dark:text-white transition-colors ease-in;
+}
+</style>

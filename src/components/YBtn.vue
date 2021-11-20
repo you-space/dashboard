@@ -102,7 +102,7 @@ const classes = computed(() => {
 .yt-btn {
     @apply relative;
     @apply cursor-pointer;
-    @apply focus:outline-none border;
+    @apply focus:outline-none border dark:border-transparent;
     @apply font-bold;
 }
 </style>
