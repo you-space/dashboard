@@ -13,9 +13,15 @@ export interface Image {
 
 export interface Video {
     id: number;
-    title: string;
     src: string;
+    title: string;
     description: string;
+
+    source: string;
+    sourceId: string;
+
+    visibility: string;
+
     publishedAt: string;
 
     views: View[];

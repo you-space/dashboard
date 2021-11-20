@@ -33,6 +33,18 @@ const pages = ref([
             <a href="/" class="font-bold text-lg">
                 {{ $store.state.app.name }}
             </a>
+
+            <div class="flex-1"></div>
+
+            <y-icon
+                clickable
+                style="width: 72px"
+                class="text-center"
+                :name="$store.state.app.darkMode ? 'sun' : 'moon'"
+                @click="
+                    $store.commit('app/setDarkMode', !$store.state.app.darkMode)
+                "
+            />
         </y-layout-toolbar>
         <y-layout-drawer v-model="drawer">
             <y-list>
