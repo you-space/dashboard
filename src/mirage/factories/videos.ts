@@ -1,3 +1,4 @@
+import { Video } from "@/compositions/videos";
 import faker from "faker";
 import { Factory } from "miragejs";
 
@@ -14,18 +15,17 @@ const youtubeIds = [
     "ZjbFDYoE-OY",
 ];
 
-const videoFactory = Factory.extend({
+const videoFactory = Factory.extend<Video>({
+    id: () => faker.datatype.number(),
     title: faker.name.title,
     description: faker.lorem.text,
     sourceId: () => faker.random.arrayElement(youtubeIds),
     source: "youtube",
     src() {
-        return `https://www.youtube.com/embed/${(this as any).sourceId}`;
+        return `https://www.youtube.com/embed/${this.sourceId}`;
     },
-    publishedAt: faker.date.past,
-    visibility: () => ({
-        name: faker.random.arrayElement(["public", "private"]),
-    }),
+    publishedAt: () => faker.date.past().toISOString(),
+    visibility: () => faker.random.arrayElement(["public", "private"]),
     views: () => [
         {
             count: faker.datatype.number({ min: 0, max: 10000 }),
