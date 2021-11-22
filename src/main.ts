@@ -2,7 +2,7 @@ import { createApp as baseCreateApp } from "vue";
 import { createRouter } from "./router";
 import App from "./App.vue";
 import { YPlugin } from "./types";
-import { createServer } from "./mirage/server";
+import { createServer } from "./api/mirage/server";
 import { createStore, key } from "./store";
 import middleware from "./router/middleware";
 import "./styles/index.scss";
