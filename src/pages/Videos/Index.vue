@@ -6,13 +6,13 @@ import { dialog } from "@/plugins/dialog";
 import { notify } from "@/plugins/notify";
 
 import Video from "@/api/models/video";
-import { useVideoRepository } from "@/api/repositores";
+import { useVideosRepository } from "@/api/repositores";
 
 interface VideoWithThumbnail extends Video {
     thumbnail?: any;
 }
 
-const repository = useVideoRepository();
+const repository = useVideosRepository();
 const moment = useMoment();
 
 const loading = ref(false);

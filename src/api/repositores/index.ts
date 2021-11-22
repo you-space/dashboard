@@ -1,5 +1,6 @@
-import { PluginsRepository } from "./plugins-repository";
-import { VideosRepository } from "./videos-repository";
+import { PluginsRepository } from "./PluginsRepository";
+import { ProvidersRepository } from "./ProvidersRepository";
+import { VideosRepository } from "./VideosRepository";
 
 export function useVideosRepository() {
     return new VideosRepository();
@@ -7,4 +8,8 @@ export function useVideosRepository() {
 
 export function usePluginsRepository() {
     return new PluginsRepository();
+}
+
+export function useProvidersRepository() {
+    return new ProvidersRepository();
 }

@@ -74,9 +74,18 @@ function createNotify() {
         show(notification);
     }
 
+    function success(message: string, duration?: number) {
+        add({
+            message,
+            color: "green-500",
+            duration,
+        });
+    }
+
     return {
         notifications,
         add,
+        success,
     };
 }
 

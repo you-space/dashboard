@@ -1,10 +1,11 @@
-import { Response, createServer as baseCreateServer } from "miragejs";
+import { createServer as baseCreateServer } from "miragejs";
 
 import models from "./models";
 import factories from "./factories";
 import VideosController from "./controllers/VideosController";
 import PluginsController from "./controllers/PluginsController";
 import AuthController from "./controllers/AuthController";
+import ProvidersController from "./controllers/ProvidersController";
 
 export function createServer({ environment = "development" } = {}) {
     return baseCreateServer<typeof models, typeof factories>({
@@ -21,15 +22,20 @@ export function createServer({ environment = "development" } = {}) {
 
             server.createList("video", 100);
             server.createList("plugin", 5);
+            server.createList("provider", 5);
         },
         routes() {
             this.namespace = "/api/v1";
 
             this.timing = 500;
 
-            this.get("videos", VideosController.index);
+            this.get("auth/user", AuthController.show);
 
-            this.delete("videos/:id", VideosController.destroy);
+            this.post("auth/logout", AuthController.logout);
+
+            this.post("auth/login", AuthController.login);
+
+            // plugins
 
             this.get("plugins", PluginsController.index);
 
@@ -39,11 +45,16 @@ export function createServer({ environment = "development" } = {}) {
 
             this.delete("plugins/:id", PluginsController.destroy);
 
-            this.get("auth/user", AuthController.show);
+            // providers
 
-            this.post("auth/logout", AuthController.logout);
+            this.get("providers", ProvidersController.index);
+            this.patch("providers/:id", ProvidersController.update);
 
-            this.post("auth/login", AuthController.login);
+            // videos
+
+            this.get("videos", VideosController.index);
+
+            this.delete("videos/:id", VideosController.destroy);
         },
     });
 }

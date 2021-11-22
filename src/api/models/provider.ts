@@ -1,4 +1,4 @@
-export default class Plugin {
+export default class Provider {
     public id: string;
     public title: string;
     public active: boolean;

@@ -41,4 +41,6 @@ http.interceptors.response.use(
     (error) => handleError(error)
 );
 
+export * from "./common";
+
 export { http };
