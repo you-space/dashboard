@@ -19,6 +19,10 @@ const props = defineProps({
         type: String as PropType<"md">,
         default: "md",
     },
+    to: {
+        type: String,
+        default: null,
+    },
 });
 
 const classes = computed(() => {
@@ -36,7 +40,10 @@ const classes = computed(() => {
 });
 </script>
 <template>
-    <i :class="classes">
+    <router-link v-if="to" :class="classes" :to="to">
+        <font-awesome-icon :icon="name" />
+    </router-link>
+    <i v-else :class="classes">
         <font-awesome-icon :icon="name" />
     </i>
 </template>
@@ -49,7 +56,7 @@ const classes = computed(() => {
     &.y-icon-clickable {
         @apply cursor-pointer;
         @apply transition-colors;
-        @apply hover:bg-gray-200;
+        @apply hover:bg-gray-200 dark:hover:bg-gray-600;
     }
 }
 </style>
