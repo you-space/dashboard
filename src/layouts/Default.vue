@@ -17,6 +17,11 @@ const pages = ref([
         to: "/plugins",
         icon: "dice",
     },
+    {
+        label: "Providers",
+        to: "/providers",
+        icon: "vector-square",
+    },
 ]);
 </script>
 <template>

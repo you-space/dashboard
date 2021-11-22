@@ -6,7 +6,7 @@ export default { layout: "empty" };
 import { useStore } from "@/store";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { api } from "@/compositions/axios";
+import { http } from "@/api";
 import { notify } from "@/plugins/notify";
 
 const store = useStore();
@@ -16,7 +16,7 @@ const uuid = ref("");
 const password = ref("");
 
 async function login() {
-    const { data } = await api.post("/auth/login", {
+    const { data } = await http.post("/auth/login", {
         uuid: uuid.value,
         password: password.value,
     });
@@ -66,7 +66,7 @@ async function login() {
     </y-form>
 </template>
 
-<style lang="postcss">
+<style lang="scss">
 .login-card {
     @apply p-6;
     max-width: 350px;

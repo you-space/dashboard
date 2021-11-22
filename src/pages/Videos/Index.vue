@@ -1,16 +1,18 @@
 <script setup lang="ts">
 import { ref, watch } from "vue";
 
-import { useVideos, Video, Image } from "@/compositions/videos";
 import { useMoment } from "@/plugins/moment";
 import { dialog } from "@/plugins/dialog";
 import { notify } from "@/plugins/notify";
 
+import Video from "@/api/models/video";
+import { useVideoRepository } from "@/api/repositores";
+
 interface VideoWithThumbnail extends Video {
-    thumbnail?: Image;
+    thumbnail?: any;
 }
 
-const service = useVideos();
+const repository = useVideoRepository();
 const moment = useMoment();
 
 const loading = ref(false);
@@ -20,7 +22,7 @@ const meta = ref({
     lastPage: 1,
 });
 
-const items = ref<VideoWithThumbnail[]>([]);
+const items = ref<VideoWithThumbnail[]>();
 
 const headers = [
     {
@@ -67,7 +69,7 @@ const headers = [
 async function setVideos() {
     loading.value = true;
 
-    await service
+    await repository
         .index({
             page: meta.value.currentPage,
             include: ["images", "views"],
@@ -96,7 +98,7 @@ async function deleteVideo(id: Video["id"]) {
         return;
     }
 
-    await service
+    await repository
         .destroy(id)
         .then((response) =>
             notify.add({ message: response.message, color: "green-500" })

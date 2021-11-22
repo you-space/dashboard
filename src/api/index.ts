@@ -2,7 +2,7 @@ import { notify } from "@/plugins/notify";
 import axios from "axios";
 import lodash from "lodash";
 
-const api = axios.create({
+const http = axios.create({
     baseURL: "/api/v1",
 });
 
@@ -31,14 +31,14 @@ function handleError(error: any) {
     return Promise.reject(error);
 }
 
-api.interceptors.request.use(
+http.interceptors.request.use(
     (config) => config,
     (error) => handleError(error)
 );
 
-api.interceptors.response.use(
+http.interceptors.response.use(
     (config) => config,
     (error) => handleError(error)
 );
 
-export { api };
+export { http };
