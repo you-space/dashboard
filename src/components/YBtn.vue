@@ -83,7 +83,7 @@ const sizes = {
 };
 
 const classes = computed(() => {
-    const result = ["uppercase", sizes[props.size] || sizes.md];
+    const result = ["uppercase", "min-w-20", sizes[props.size] || sizes.md];
 
     if (props.rounded) {
         result.push("rounded");
@@ -102,7 +102,7 @@ const classes = computed(() => {
 .yt-btn {
     @apply relative;
     @apply cursor-pointer;
-    @apply focus:outline-none border dark:border-transparent;
+    @apply focus:outline-none;
     @apply font-bold;
 }
 </style>

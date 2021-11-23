@@ -13,6 +13,23 @@ export class ProvidersController {
         };
     }
 
+    public show(schema: Schema, request: Request) {
+        const { id } = request.params;
+        const provider = schema.find("provider", id);
+
+        if (!provider) {
+            return new Response(
+                404,
+                {},
+                {
+                    message: "Provider not found",
+                }
+            );
+        }
+
+        return provider.attrs;
+    }
+
     public update(schema: Schema, request: Request) {
         const { id } = request.params;
         const body = JSON.parse(request.requestBody);
@@ -28,12 +45,29 @@ export class ProvidersController {
             );
         }
 
-        provider.update({
-            active: body.active,
-        });
+        provider.update(body);
 
         return {
             message: "Provider updated",
+        };
+    }
+
+    public import(schema: Schema, request: Request) {
+        const { id } = request.params;
+        const provider = schema.find("provider", id);
+
+        if (!provider) {
+            return new Response(
+                404,
+                {},
+                {
+                    message: "Provider not found",
+                }
+            );
+        }
+
+        return {
+            message: "Provider importation started",
         };
     }
 }

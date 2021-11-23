@@ -5,7 +5,7 @@
         </div>
 
         <slot name="input" :attrs="inputAttrs">
-            <input v-model="model" v-bind="inputAttrs" />
+            <input v-model="model" v-bind="inputAttrs" :type="type" />
         </slot>
 
         <template v-if="message">
@@ -33,6 +33,10 @@ export default defineComponent({
     props: {
         modelValue: {
             type: [String, Number],
+            default: "",
+        },
+        type: {
+            type: String,
             default: "",
         },
         label: {
@@ -143,7 +147,7 @@ export default defineComponent({
     }
 
     input {
-        @apply focus:outline-none;
+        @apply focus:outline-none focus:border-primary;
         @apply w-full rounded px-4 py-2;
         @apply border;
         @apply dark:text-white;

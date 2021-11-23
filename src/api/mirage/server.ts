@@ -48,6 +48,11 @@ export function createServer({ environment = "development" } = {}) {
             // providers
 
             this.get("providers", ProvidersController.index);
+
+            this.get("providers/:id", ProvidersController.show);
+
+            this.post("providers/:id/import", ProvidersController.import);
+
             this.patch("providers/:id", ProvidersController.update);
 
             // videos

@@ -65,8 +65,12 @@ async function toggleProvider(item: Provider) {
                         />
                     </template>
 
-                    <template #item-actions>
-                        <y-icon name="cog" clickable rounded />
+                    <template #item-actions="{ item }">
+                        <y-icon
+                            name="cog"
+                            clickable
+                            :to="`/providers/${item.id}`"
+                        />
                     </template>
                 </y-table>
             </y-card-section>

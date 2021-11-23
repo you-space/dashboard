@@ -12,8 +12,20 @@ export class ProvidersRepository {
         return data;
     }
 
+    public async show(id: string) {
+        const { data } = await http.get<Provider>(`/providers/${id}`);
+
+        return new Provider(data);
+    }
+
     public async update(id: string, payload: Partial<Provider>) {
         const { data } = await http.patch(`/providers/${id}`, payload);
+
+        return data;
+    }
+
+    public async import(id: string) {
+        const { data } = await http.post(`/providers/${id}/import`);
 
         return data;
     }
