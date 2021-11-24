@@ -44,7 +44,7 @@ async function importNow() {
     <y-page>
         <y-card v-if="provider">
             <y-card-section class="align-top">
-                <div class="text-xl font-bold mb-2">{{ provider.title }}</div>
+                <div class="text-xl font-bold mb-2">{{ provider.name }}</div>
                 <div class="flex-1"></div>
 
                 <y-btn @click="importNow" class="mr-4" outlined
@@ -67,11 +67,11 @@ async function importNow() {
                     <y-input
                         v-model="field.value"
                         :label="field.label"
-                        :type="field.encrypt ? 'password' : 'text'"
+                        :type="field.encrypted ? 'password' : 'text'"
                         class="mr-8 w-8/12"
                     />
                     <y-switch
-                        v-model="field.encrypt"
+                        v-model="field.encrypted"
                         label="Encrypt"
                         style="height: 44px"
                     />

@@ -12,9 +12,9 @@ const items = ref<Provider[]>([]);
 
 const headers = [
     {
-        name: "title",
-        label: "Title",
-        value: "title",
+        name: "name",
+        label: "Name",
+        value: "name",
     },
     {
         name: "active",

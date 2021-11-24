@@ -3,11 +3,11 @@ interface Field {
     type: "text";
     label: string;
     value: string;
-    encrypt: boolean;
+    encrypted: boolean;
 }
 export default class Provider {
     public id: string;
-    public title: string;
+    public name: string;
     public description: string;
     public active: boolean;
 

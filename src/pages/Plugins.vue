@@ -17,8 +17,8 @@ const form = ref({
 
 const headers = [
     {
-        label: "Title",
-        value: "title",
+        label: "Name",
+        value: "name",
     },
     {
         label: "Description",
