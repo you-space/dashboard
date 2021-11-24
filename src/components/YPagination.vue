@@ -62,7 +62,7 @@ const visiblePages = computed(() => {
             outlined
             @click="model--"
         >
-            <y-icon name="chevron-left" />
+            <y-icon class="contents" name="chevron-left" />
         </y-btn>
 
         <template v-if="!visiblePages.includes(1)">
@@ -113,7 +113,7 @@ const visiblePages = computed(() => {
             outlined
             @click="model++"
         >
-            <y-icon name="chevron-right" />
+            <y-icon class="contents" name="chevron-right" />
         </y-btn>
     </div>
 </template>
