@@ -2,7 +2,7 @@
 import Provider from "@/api/models/provider";
 import { useProvidersRepository } from "@/api/repositores";
 import { notify } from "@/plugins/notify";
-import { ref, watch } from "vue";
+import { ref, watch, computed } from "vue";
 import { useRouter } from "vue-router";
 
 const props = defineProps({
@@ -15,12 +15,33 @@ const props = defineProps({
 const router = useRouter();
 const repository = useProvidersRepository();
 
+const originalProvider = ref<Partial<Provider>>({});
 const provider = ref<Partial<Provider>>({});
+
+const fieldHaveChange = computed(() =>
+    provider.value.fields
+        ?.map((field, index) => [
+            JSON.stringify(field),
+            JSON.stringify(originalProvider.value.fields?.[index]),
+        ])
+        .some(([value, originalValue]) => value !== originalValue)
+);
+
+const importHaveChange = computed(
+    () => provider.value.import !== originalProvider.value.import
+);
+
+const haveChanges = computed(
+    () => fieldHaveChange.value || importHaveChange.value
+);
 
 async function setProvider() {
     await repository
         .show(props.id)
-        .then((data) => (provider.value = data))
+        .then((data) => {
+            originalProvider.value = JSON.parse(JSON.stringify(data));
+            provider.value = data;
+        })
         .catch(() => router.push("/providers"));
 }
 
@@ -47,9 +68,14 @@ async function importNow() {
                 <div class="text-xl font-bold mb-2">{{ provider.name }}</div>
                 <div class="flex-1"></div>
 
-                <y-btn @click="importNow" class="mr-4" outlined
-                    >import now</y-btn
+                <y-btn
+                    @click="importNow"
+                    class="mr-4"
+                    outlined
+                    :disabled="haveChanges"
                 >
+                    import now
+                </y-btn>
                 <y-btn @click="save">save</y-btn>
 
                 <div class="w-full">{{ provider.description }}</div>

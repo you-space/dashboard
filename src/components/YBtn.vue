@@ -75,6 +75,10 @@ const props = defineProps({
         type: Boolean,
         default: true,
     },
+    disabled: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const sizes = {
@@ -93,6 +97,10 @@ const classes = computed(() => {
         result.push(`border border-${props.color} text-${props.color}`);
     } else {
         result.push(`bg-${props.color} text-${props.textColor}`);
+    }
+
+    if (props.disabled) {
+        result.push("opacity-50 cursor-not-allowed");
     }
 
     return result;
