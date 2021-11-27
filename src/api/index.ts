@@ -28,6 +28,10 @@ function handleError(error: any) {
         message,
     });
 
+    Object.entries(lodash.get(error, "response.data.errors", {}))
+        .map((entry) => `${entry[0]}: ${entry[1]}`)
+        .forEach(notify.warn);
+
     return Promise.reject(error);
 }
 

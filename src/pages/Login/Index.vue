@@ -36,7 +36,10 @@ async function login() {
 </script>
 
 <template>
-    <y-form class="flex items-center justify-center h-screen" @submit="login">
+    <y-form
+        class="flex items-center justify-center h-screen dark:bg-gray-700"
+        @submit="login"
+    >
         <y-card class="login-card">
             <div class="text-4xl text-center mb-10 font-bold">You space</div>
             <y-input
