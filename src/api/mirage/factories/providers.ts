@@ -5,7 +5,7 @@ import Provider from "@/api/models/provider";
 
 const providerFactory = Factory.extend<Provider>({
     id: () => kebabCase(faker.lorem.word()),
-    title: () => faker.name.title(),
+    name: () => faker.name.title(),
     description: () => faker.lorem.sentence(),
     active: () => faker.datatype.boolean(),
     import: () => faker.random.arrayElement(["daily", "weekly", "monthly"]),
@@ -15,7 +15,7 @@ const providerFactory = Factory.extend<Provider>({
             name: faker.lorem.word(),
             type: "text",
             value: faker.lorem.sentence(),
-            encrypt: faker.datatype.boolean(),
+            encrypted: faker.datatype.boolean(),
         },
     ],
 });
