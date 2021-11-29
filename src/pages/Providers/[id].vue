@@ -104,7 +104,7 @@ async function importNow() {
                 </div>
             </y-card-section>
 
-            <y-card-section>
+            <!-- <y-card-section>
                 <div class="text-lg font-bold mb-8 w-full">
                     Import frequency
                 </div>
@@ -135,7 +135,7 @@ async function importNow() {
                         label="Monthly"
                     />
                 </div>
-            </y-card-section>
+            </y-card-section> -->
         </y-card>
     </y-page>
 </template>
