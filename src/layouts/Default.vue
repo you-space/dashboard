@@ -17,18 +17,19 @@ const pages = ref([
         to: "/plugins",
         icon: "dice",
     },
+    {
+        label: "Providers",
+        to: "/providers",
+        icon: "vector-square",
+    },
 ]);
 </script>
 <template>
     <y-layout>
         <y-layout-toolbar>
-            <y-icon
-                clickable
-                style="width: 72px"
-                class="text-center"
-                name="bars"
-                @click="drawer = !drawer"
-            />
+            <div style="width: 72px" class="flex items-center justify-center">
+                <y-icon clickable name="bars" @click="drawer = !drawer" />
+            </div>
 
             <a href="/" class="font-bold text-lg">
                 {{ $store.state.app.name }}
@@ -36,15 +37,18 @@ const pages = ref([
 
             <div class="flex-1"></div>
 
-            <y-icon
-                clickable
-                style="width: 72px"
-                class="text-center"
-                :name="$store.state.app.darkMode ? 'sun' : 'moon'"
-                @click="
-                    $store.commit('app/setDarkMode', !$store.state.app.darkMode)
-                "
-            />
+            <div style="width: 72px" class="flex items-center justify-center">
+                <y-icon
+                    clickable
+                    :name="$store.state.app.darkMode ? 'sun' : 'moon'"
+                    @click="
+                        $store.commit(
+                            'app/setDarkMode',
+                            !$store.state.app.darkMode
+                        )
+                    "
+                />
+            </div>
         </y-layout-toolbar>
         <y-layout-drawer v-model="drawer">
             <y-list>
@@ -52,7 +56,7 @@ const pages = ref([
                     v-for="(page, index) in pages"
                     :key="index"
                     :to="page.to"
-                    class="overflow-hidden"
+                    class="overflow-hidden py-2"
                     no-padding
                 >
                     <y-icon

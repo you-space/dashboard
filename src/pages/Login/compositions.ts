@@ -1,7 +1,7 @@
-import { api } from "@/compositions/axios";
+import { http } from "@/api";
 
 export async function login(uuid: string, password: string) {
-    await api.post("/auth/login", {
+    await http.post("/auth/login", {
         uuid,
         password,
     });

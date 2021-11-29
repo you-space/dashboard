@@ -6,7 +6,7 @@ export default { layout: "empty" };
 import { useStore } from "@/store";
 import { ref } from "vue";
 import { useRouter } from "vue-router";
-import { api } from "@/compositions/axios";
+import { http } from "@/api";
 import { notify } from "@/plugins/notify";
 
 const store = useStore();
@@ -16,7 +16,7 @@ const uuid = ref("");
 const password = ref("");
 
 async function login() {
-    const { data } = await api.post("/auth/login", {
+    const { data } = await http.post("/auth/login", {
         uuid: uuid.value,
         password: password.value,
     });
@@ -36,7 +36,10 @@ async function login() {
 </script>
 
 <template>
-    <y-form class="flex items-center justify-center h-screen" @submit="login">
+    <y-form
+        class="flex items-center justify-center h-screen dark:bg-gray-700"
+        @submit="login"
+    >
         <y-card class="login-card">
             <div class="text-4xl text-center mb-10 font-bold">You space</div>
             <y-input
@@ -66,7 +69,7 @@ async function login() {
     </y-form>
 </template>
 
-<style lang="postcss">
+<style lang="scss">
 .login-card {
     @apply p-6;
     max-width: 350px;

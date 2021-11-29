@@ -50,7 +50,6 @@ export default defineComponent({
         };
 
         function toggle() {
-            console.log("toggle", model.value);
             model.value = !model.value;
         }
 

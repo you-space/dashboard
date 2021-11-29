@@ -1,4 +1,4 @@
-import { Video } from "@/compositions/videos";
+import Video from "@/api/models/video";
 import faker from "faker";
 import { Factory } from "miragejs";
 

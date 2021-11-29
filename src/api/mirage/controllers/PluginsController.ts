@@ -1,5 +1,5 @@
 import { Request, Response } from "miragejs";
-import { Schema } from "@/mirage/types";
+import { Schema } from "@/api/mirage/types";
 
 class PluginsController {
     public index(schema: Schema) {

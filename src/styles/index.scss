@@ -7,14 +7,18 @@
 }
 
 body {
-    @apply text-gray-700 dark:text-white transition-colors ease-in;
+    @apply text-gray-500 dark:text-white transition-colors ease-in;
+}
+.notify-container {
+    @apply fixed top-0 right-0;
+    @apply my-4 mx-4;
 }
 
 .notify {
     --notify-color: theme("colors.primary");
-    --notify-duration: 3000;
-    @apply fixed top-0 right-0;
-    @apply my-4 mx-4 p-4;
+    --notify-duration: 3000ms;
+    @apply relative;
+    @apply mb-4 p-4;
     @apply w-72;
     @apply text-white text-sm;
     @apply rounded-md shadow-lg;
@@ -26,6 +30,7 @@ body {
 
     &.hide {
         opacity: 0;
+        pointer-events: none;
     }
 
     &.animate {

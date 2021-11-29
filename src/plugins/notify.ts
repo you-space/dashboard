@@ -25,12 +25,21 @@ function createNotify() {
         notification.element.classList.remove("hide");
         notification.element.classList.add("animate");
 
+        const duration = notification.duration || 3000;
+
         setTimeout(() => {
             notification.done = true;
 
             notification.element.classList.add("hide");
             notification.element.classList.remove("animate");
-        }, notification.duration);
+        }, duration);
+
+        setTimeout(() => {
+            if (notification.done) {
+                notification.element.remove();
+                notifications.delete(notification.message);
+            }
+        }, duration + 500);
     }
 
     function add(options: NotifyOptions) {
@@ -74,9 +83,27 @@ function createNotify() {
         show(notification);
     }
 
+    function success(message: string, duration?: number) {
+        add({
+            message,
+            color: "green-500",
+            duration,
+        });
+    }
+
+    function warn(message: string, duration?: number) {
+        add({
+            message,
+            color: "yellow-500",
+            duration,
+        });
+    }
+
     return {
         notifications,
         add,
+        success,
+        warn,
     };
 }
 

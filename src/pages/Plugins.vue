@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import { ref } from "vue";
-import { usePlugins, Plugin } from "@/compositions/plugins";
 import { notify } from "@/plugins/notify";
 import { dialog } from "@/plugins/dialog";
+import { usePluginsRepository } from "@/api/repositores";
+import Plugin from "@/api/models/plugin";
 
-const plugins = usePlugins();
+const repository = usePluginsRepository();
 
 const items = ref<Plugin[]>([]);
 const loading = ref(false);
@@ -16,8 +17,8 @@ const form = ref({
 
 const headers = [
     {
-        label: "Title",
-        value: "title",
+        label: "Name",
+        value: "name",
     },
     {
         label: "Description",
@@ -37,7 +38,7 @@ const headers = [
 async function setPlugins() {
     loading.value = true;
 
-    await plugins
+    await repository
         .index()
         .then((response) => (items.value = response.data))
         .finally(() => setTimeout(() => (loading.value = false), 1000));
@@ -46,7 +47,7 @@ async function setPlugins() {
 setPlugins();
 
 async function updatePlugin(plugin: Plugin, value: boolean) {
-    await plugins
+    await repository
         .update(plugin.id, { active: value })
         .then(() =>
             notify.add({ message: "Plugin updated", color: "green-500" })
@@ -55,7 +56,7 @@ async function updatePlugin(plugin: Plugin, value: boolean) {
 }
 
 async function addPlugin() {
-    await plugins
+    await repository
         .store(form.value.gitUrl)
         .then(() => {
             notify.add({ message: "Plugin added", color: "green-500" });
@@ -72,13 +73,12 @@ async function deletePlugin(id: Plugin["id"]) {
         return;
     }
 
-    await plugins
+    await repository
         .destroy(id)
-        .then(() => {
-            notify.add({ message: "Plugin deleted", color: "green-500" });
-            setPlugins();
-        })
-        .finally(() => setPlugins());
+        .then((response) =>
+            notify.add({ message: response.message, color: "green-500" })
+        )
+        .finally(setPlugins);
 }
 </script>
 <template>

@@ -9,7 +9,7 @@ const pages = Object.entries(components)
             .replace("../pages", "")
             .replace(/index/i, "")
             .replace(".vue", "")
-            .replace(/_/g, ":")
+            .replace(/\[(.*?)\]/g, ":$1")
             .toLowerCase();
 
         if (path === "/404") {

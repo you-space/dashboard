@@ -1,6 +1,6 @@
 import { ActionTree, MutationTree } from "vuex";
 import { RootState } from "@/store/state";
-import { api } from "@/compositions/axios";
+import { http } from "@/api";
 
 export type State = typeof state;
 
@@ -20,7 +20,7 @@ const mutations: MutationTree<State> = {
 
 const actions: ActionTree<State, RootState> = {
     async login({ commit, dispatch }) {
-        await api
+        await http
             .get("/auth/user")
             .then((response) => {
                 commit("setAuthenticated", true);
@@ -29,7 +29,7 @@ const actions: ActionTree<State, RootState> = {
             .catch(() => dispatch("logout"));
     },
     async logout({ commit }) {
-        return api
+        return http
             .post("/auth/logout")
             .finally(() => {
                 commit("setAuthenticated", false);
