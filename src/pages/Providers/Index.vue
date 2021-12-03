@@ -25,7 +25,7 @@ const headers = [
         name: "actions",
         label: "",
         value: "actions",
-        class: "w-10",
+        class: "w-20",
     },
 ];
 
@@ -66,11 +66,9 @@ async function toggleProvider(item: Provider) {
                     </template>
 
                     <template #item-actions="{ item }">
-                        <y-icon
-                            name="cog"
-                            clickable
-                            :to="`/providers/${item.id}`"
-                        />
+                        <y-btn :to="`/providers/${item.id}`" text>
+                            <y-icon name="cog" />
+                        </y-btn>
                     </template>
                 </y-table>
             </y-card-section>

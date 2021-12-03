@@ -72,11 +72,12 @@ async function importNow() {
                     @click="importNow"
                     class="mr-4"
                     outlined
+                    color="primary"
                     :disabled="haveChanges"
                 >
                     import now
                 </y-btn>
-                <y-btn @click="save">save</y-btn>
+                <y-btn color="primary" @click="save">save</y-btn>
 
                 <div class="w-full">{{ provider.description }}</div>
             </y-card-section>

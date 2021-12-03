@@ -1,6 +1,10 @@
 <script lang="ts" setup>
+import { useStore } from "@/store";
 import { ref } from "vue";
+
+const store = useStore();
 const drawer = ref(true);
+
 const pages = ref([
     {
         label: "Home",
@@ -23,12 +27,23 @@ const pages = ref([
         icon: "vector-square",
     },
 ]);
+
+function toggleDarkMode() {
+    store.commit("app/setDarkMode", !store.state.app.darkMode);
+}
 </script>
 <template>
     <y-layout>
         <y-layout-toolbar>
             <div style="width: 72px" class="flex items-center justify-center">
-                <y-icon clickable name="bars" @click="drawer = !drawer" />
+                <y-btn
+                    @click="drawer = !drawer"
+                    text
+                    color="gray-500"
+                    dark-color="white"
+                >
+                    <y-icon name="bars" />
+                </y-btn>
             </div>
 
             <a href="/" class="font-bold text-lg">
@@ -38,16 +53,16 @@ const pages = ref([
             <div class="flex-1"></div>
 
             <div style="width: 72px" class="flex items-center justify-center">
-                <y-icon
-                    clickable
-                    :name="$store.state.app.darkMode ? 'sun' : 'moon'"
-                    @click="
-                        $store.commit(
-                            'app/setDarkMode',
-                            !$store.state.app.darkMode
-                        )
-                    "
-                />
+                <y-btn
+                    text
+                    color="gray-500"
+                    dark-color="white"
+                    @click="toggleDarkMode"
+                >
+                    <y-icon
+                        :name="$store.state.app.darkMode ? 'sun' : 'moon'"
+                    />
+                </y-btn>
             </div>
         </y-layout-toolbar>
         <y-layout-drawer v-model="drawer">
@@ -56,13 +71,13 @@ const pages = ref([
                     v-for="(page, index) in pages"
                     :key="index"
                     :to="page.to"
-                    class="overflow-hidden py-2"
+                    class="overflow-hidden py-3"
                     no-padding
                 >
                     <y-icon
                         :name="page.icon"
                         style="width: 72px"
-                        class="text-center py-3"
+                        class="text-center"
                     />
 
                     <div v-show="drawer">

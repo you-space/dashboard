@@ -9,11 +9,19 @@ const props = defineProps({
     },
     color: {
         type: String,
-        default: "primary",
+        default: "gray-500",
+    },
+    darkColor: {
+        type: String,
+        default: "white",
     },
     textColor: {
         type: String,
         default: "white",
+    },
+    darkTextColor: {
+        type: String,
+        default: undefined,
     },
     loading: {
         type: Boolean,
@@ -28,6 +36,10 @@ const props = defineProps({
         default: null,
     },
     outlined: {
+        type: Boolean,
+        default: false,
+    },
+    text: {
         type: Boolean,
         default: false,
     },
@@ -46,14 +58,24 @@ const sizes = {
     md: "py-2 px-4 text-sm",
 };
 
-const styles = computed(() => ({
-    "--bg-color": props.outlined
-        ? css.toColor("transparent")
-        : css.toColor(props.color),
-    "--text-color": props.outlined
-        ? css.toColor(props.color)
-        : css.toColor(props.textColor),
-}));
+const styles = computed(() => {
+    const result = {
+        "--color": css.toColor(props.color),
+        "--text-color": css.toColor(props.textColor),
+        "--dark-color": css.toColor(props.color),
+        "--dark-text-color": css.toColor(props.textColor),
+    };
+
+    if (props.darkColor) {
+        result["--dark-color"] = css.toColor(props.darkColor);
+    }
+
+    if (props.darkTextColor) {
+        result["--dark-text-color"] = css.toColor(props.darkTextColor);
+    }
+
+    return result;
+});
 
 const classes = computed(() => {
     const result = ["uppercase", "min-w-20", sizes[props.size] || sizes.md];
@@ -63,11 +85,15 @@ const classes = computed(() => {
     }
 
     if (props.outlined) {
-        result.push(`border border-${props.color} `);
+        result.push("y-btn-outlined");
     }
 
     if (props.disabled) {
         result.push("opacity-50 cursor-not-allowed");
+    }
+
+    if (props.text) {
+        result.push("y-btn-text");
     }
 
     return result;
@@ -78,39 +104,85 @@ const classes = computed(() => {
     <component
         :is="to ? 'router-link' : 'button'"
         v-bind="$attrs"
-        :tag="to ? 'button' : undefined"
-        class="yt-btn"
+        class="y-btn"
         :class="classes"
         :to="to"
         :style="styles"
     >
-        <template v-if="label">
-            {{ label }}
-        </template>
+        <div class="min-w-full min-h-full relative">
+            <template v-if="label">
+                {{ label }}
+            </template>
 
-        <slot />
+            <slot />
 
-        <div
-            v-if="loading"
-            class="absolute inset-0 flex items-center justify-center"
-            :class="`bg-${color}`"
-        >
-            <!-- <yt-spin :class="`text-${textColor}`" /> -->
+            <div
+                v-if="loading"
+                class="absolute inset-0 flex items-center justify-center"
+                :class="`bg-${color}`"
+            >
+                <!-- <yt-spin :class="`text-${textColor}`" /> -->
+            </div>
         </div>
     </component>
 </template>
 
 <style lang="scss">
-.yt-btn {
-    @apply relative;
+.y-btn {
+    @apply relative inline-flex;
     @apply cursor-pointer;
     @apply focus:outline-none;
     @apply font-bold;
+    @apply transition-colors;
 
     --text-color: white;
-    --bg-color: var(--theme-primary);
+    --color: blue;
 
-    background-color: var(--bg-color);
+    --dark-color: var(--color);
+    --dark-text-color: var(--text-color);
+
+    background-color: var(--color);
     color: var(--text-color);
+    z-index: 1;
+
+    &.y-btn-outlined {
+        @apply border;
+        background-color: transparent;
+        border-color: var(--color);
+        color: var(--color);
+
+        &:after {
+            @apply absolute inset-0;
+            content: "";
+            background-color: var(--color);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        &:hover:after {
+            opacity: 0.1;
+        }
+    }
+
+    &.y-btn-text {
+        background-color: transparent;
+        color: var(--color);
+
+        .dark & {
+            color: var(--dark-color);
+        }
+
+        &:after {
+            @apply absolute inset-0;
+            content: "";
+            background-color: var(--color);
+            opacity: 0;
+            z-index: -1;
+        }
+
+        &:hover:after {
+            opacity: 0.1;
+        }
+    }
 }
 </style>
