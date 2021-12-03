@@ -24,18 +24,15 @@ const model = computed({
 
 <template>
     <div v-if="model" class="y-dialog">
-        <div class="y-dialog-overlay" @click="model = false" />
-        <slot />
+        <y-overlay v-if="model" @click.stop="model = false" absolute />
+        <div class="z-20">
+            <slot />
+        </div>
     </div>
 </template>
 
 <style lang="scss">
 .y-dialog {
     @apply fixed inset-0 flex items-center justify-center z-50;
-
-    .y-dialog-overlay {
-        @apply absolute inset-0 bg-black opacity-20;
-        z-index: -1;
-    }
 }
 </style>
