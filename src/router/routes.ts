@@ -4,6 +4,7 @@ const components = import.meta.glob("../pages/**/*.vue");
 
 const pages = Object.entries(components)
     .filter(([filename]) => filename.split("/").pop()?.charAt(0) !== "-")
+    .filter(([filename]) => !filename.includes("components"))
     .map(([filename, component]) => {
         let path = filename
             .replace("../pages", "")
