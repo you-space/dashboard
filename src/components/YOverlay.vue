@@ -18,6 +18,10 @@ const props = defineProps({
             return ["10", "20", "30", "40", "50", "auto"].includes(value);
         },
     },
+    absolute: {
+        type: Boolean,
+        default: false,
+    },
 });
 
 const style = computed<any>(() => ({
@@ -26,7 +30,15 @@ const style = computed<any>(() => ({
 }));
 
 const classes = computed(() => {
-    const result = ["y-overlay", "fixed", "inset-0"];
+    const result = ["y-overlay", "inset-0"];
+
+    if (props.absolute) {
+        result.push("absolute");
+    }
+
+    if (!props.absolute) {
+        result.push("fixed");
+    }
 
     result.push(`z-${props.zIndex}`);
 
