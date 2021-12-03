@@ -4,7 +4,7 @@ import { kebabCase } from "lodash";
 
 const pluginFactory = Factory.extend({
     id: () => kebabCase(faker.lorem.word()),
-    title: () => faker.name.title(),
+    name: () => faker.name.title(),
     description: () => faker.lorem.sentence(),
     active: () => faker.datatype.boolean(),
 });
