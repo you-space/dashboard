@@ -109,20 +109,18 @@ const classes = computed(() => {
         :to="to"
         :style="styles"
     >
-        <div class="min-w-full min-h-full relative">
-            <template v-if="label">
-                {{ label }}
-            </template>
+        <template v-if="label">
+            {{ label }}
+        </template>
 
-            <slot />
+        <slot />
 
-            <div
-                v-if="loading"
-                class="absolute inset-0 flex items-center justify-center"
-                :class="`bg-${color}`"
-            >
-                <!-- <yt-spin :class="`text-${textColor}`" /> -->
-            </div>
+        <div
+            v-if="loading"
+            class="absolute inset-0 flex items-center justify-center"
+            :class="`bg-${color}`"
+        >
+            <!-- <y-spin :class="`text-${textColor}`" /> -->
         </div>
     </component>
 </template>

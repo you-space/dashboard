@@ -1,5 +1,5 @@
 <template>
-    <div class="yt-drawer" :style="style">
+    <div class="y-drawer" :style="style">
         <slot />
     </div>
 </template>
@@ -66,7 +66,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
-.yt-drawer {
+.y-drawer {
     @apply transition-width transition-colors  ease-in-out;
     @apply border-r dark:border-transparent;
     @apply dark:bg-gray-800;

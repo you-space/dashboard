@@ -1,5 +1,5 @@
 <template>
-    <div class="yt-content" :style="style">
+    <div class="y-content" :style="style">
         <slot />
     </div>
 </template>
@@ -27,7 +27,7 @@ export default defineComponent({
 </script>
 
 <style lang="postcss">
-.yt-content {
+.y-content {
     @apply transition-width  ease-in-out;
     @apply overflow-auto;
     @apply dark:bg-gray-700;

@@ -1,5 +1,5 @@
 <template>
-    <div class="yt-toolbar" :style="style">
+    <div class="y-toolbar" :style="style">
         <slot />
     </div>
 </template>
@@ -41,7 +41,7 @@ export default defineComponent({
 </script>
 
 <style lang="scss">
-.yt-toolbar {
+.y-toolbar {
     @apply transition-colors  ease-in-out;
     @apply flex flex-wrap items-center w-full;
     @apply border-b dark:border-transparent;
