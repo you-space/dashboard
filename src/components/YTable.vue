@@ -85,6 +85,7 @@ function getValue(item: any, header: Header) {
 <style lang="scss">
 .y-table {
     @apply w-full text-sm rounded-lg border dark:border-gray-400;
+    @apply overflow-auto;
 
     thead {
         @apply bg-gray-100 text-gray-500 text-left dark:bg-gray-400 dark:text-gray-700;
