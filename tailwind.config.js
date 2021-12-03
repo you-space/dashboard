@@ -8,7 +8,7 @@ module.exports = {
             "./src/**/*.scss",
         ],
         options: {
-            safelist: [/^bg-/, /^text-/],
+            safelist: [/^bg-/, /^text-/, ~/^border-/],
         },
     },
     darkMode: "class",

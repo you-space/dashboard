@@ -40,7 +40,7 @@ export default defineComponent({
 });
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 .yt-toolbar {
     @apply transition-colors  ease-in-out;
     @apply flex flex-wrap items-center w-full;
