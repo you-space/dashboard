@@ -1,4 +1,12 @@
+import lodash from "lodash";
+import colors from "tailwindcss/colors";
+
 import { computed } from "vue";
+
+const allColors = {
+    ...colors,
+    primary: "var(--theme-primary)",
+};
 
 function isPixelMeasure(value: string): boolean {
     return value.endsWith("px");
@@ -18,9 +26,19 @@ function toMeasure(value: number | string) {
 
     return `${value}px`;
 }
+function toColor(value: string) {
+    if (value.startsWith("#")) {
+        return value;
+    }
+
+    const color = lodash.get(allColors, value.replace("-", "."), null);
+
+    return color || value;
+}
 
 export const css = {
-    toMeasure: toMeasure,
+    toMeasure,
+    toColor,
 };
 
 export function useModel<T = any>(
