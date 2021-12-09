@@ -36,9 +36,21 @@ function toColor(value: string) {
     return color || value;
 }
 
+function scrollToTop(element?: HTMLElement) {
+    let content = element || document.querySelector(".y-content");
+
+    if (content) {
+        content.scrollTo(0, 0);
+    }
+}
+
 export const css = {
     toMeasure,
     toColor,
+};
+
+export const scroll = {
+    toTop: scrollToTop,
 };
 
 export function useModel<T = any>(
