@@ -31,8 +31,8 @@ async function submit() {
 </script>
 <template>
     <y-dialog v-model="model">
-        <y-card class="w-full max-w-2xl">
-            <y-card-section class="font-bold text-lg">
+        <y-card class="w-full max-w-lg">
+            <y-card-section class="font-bold text-gray-700 text-xl">
                 Upload video
             </y-card-section>
 

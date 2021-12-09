@@ -4,6 +4,7 @@ import { ref, watch, defineAsyncComponent } from "vue";
 import { useMoment } from "@/plugins/moment";
 import { dialog } from "@/plugins/dialog";
 import { notify } from "@/plugins/notify";
+import { scroll } from "@/compositions/helpers";
 
 import Video from "@/api/models/video";
 import { useVideosRepository } from "@/api/repositores";
@@ -17,8 +18,13 @@ const UploadDialog = defineAsyncComponent(
     () => import("./components/UploadDialog.vue")
 );
 
+const RawVideoDialog = defineAsyncComponent(
+    () => import("./components/RawVideoDialog.vue")
+);
+
 const dialogs = ref({
     upload: false,
+    raw: false,
 });
 
 const repository = useVideosRepository();
@@ -77,6 +83,8 @@ const headers = [
 
 async function setVideos() {
     loading.value = true;
+
+    scroll.toTop();
 
     await repository
         .index({
@@ -137,12 +145,15 @@ async function deleteVideo(id: Video["id"]) {
                                 >
                                     Upload video
                                 </y-item>
-                                <y-item clickable>Add video raw</y-item>
+                                <y-item clickable @click="dialogs.raw = true">
+                                    Add video raw
+                                </y-item>
                             </y-card>
                         </y-menu>
                     </y-btn>
 
                     <upload-dialog v-model="dialogs.upload" />
+                    <raw-video-dialog v-model="dialogs.raw" />
                 </div>
 
                 <y-table :loading="loading" :headers="headers" :items="items">

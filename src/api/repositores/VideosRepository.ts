@@ -13,8 +13,8 @@ export class VideosRepository {
         return data;
     }
 
-    public async destroy(id: number) {
-        const { data } = await http.delete(`/videos/${id}`);
+    public async store(video: Partial<Video>) {
+        const { data } = await http.post("/videos", video);
 
         return data;
     }
@@ -25,6 +25,12 @@ export class VideosRepository {
         formData.append("file", file);
 
         const { data } = await http.post("/videos/upload", formData);
+
+        return data;
+    }
+
+    public async destroy(id: number) {
+        const { data } = await http.delete(`/videos/${id}`);
 
         return data;
     }
