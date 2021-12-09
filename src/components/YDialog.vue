@@ -24,10 +24,13 @@ const model = computed({
 
 <template>
     <div v-if="model" class="y-dialog">
-        <y-overlay v-if="model" @click.stop="model = false" absolute />
-        <div class="z-20">
-            <slot />
-        </div>
+        <y-overlay
+            v-if="model"
+            :z-index="-1"
+            @click.stop="model = false"
+            absolute
+        />
+        <slot />
     </div>
 </template>
 

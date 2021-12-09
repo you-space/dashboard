@@ -12,11 +12,8 @@ const props = defineProps({
         default: 0.5,
     },
     zIndex: {
-        type: String,
-        default: "10",
-        validator: (value: string) => {
-            return ["10", "20", "30", "40", "50", "auto"].includes(value);
-        },
+        type: Number,
+        default: 10,
     },
     absolute: {
         type: Boolean,
@@ -27,6 +24,7 @@ const props = defineProps({
 const style = computed<any>(() => ({
     "--color": css.toColor(props.color),
     "--opacity": props.opacity,
+    "--z-index": props.zIndex,
 }));
 
 const classes = computed(() => {
@@ -49,13 +47,15 @@ const classes = computed(() => {
     <div :class="classes" :style="style"></div>
 </template>
 
-<style>
+<style lang="scss">
 .y-overlay {
     @apply cursor-default;
 
     --color: black;
     --opacity: 0.5;
+    --z-index: 10;
     background-color: var(--color);
     opacity: var(--opacity);
+    z-index: var(--z-index);
 }
 </style>
