@@ -18,4 +18,14 @@ export class VideosRepository {
 
         return data;
     }
+
+    public async upload(file: File) {
+        const formData = new FormData();
+
+        formData.append("file", file);
+
+        const { data } = await http.post("/videos/upload", formData);
+
+        return data;
+    }
 }

@@ -38,6 +38,40 @@ class VideosController {
             message: "Video deleted",
         };
     }
+
+    public upload(schema: Schema, request: Request) {
+        const form = request.requestBody as any as FormData;
+        const formats = ["video/mp4", "video/webm", "video/ogg"];
+
+        const file = form.get("file") as File;
+
+        if (!file) {
+            return new Response(
+                400,
+                {},
+                {
+                    message: "File is required",
+                }
+            );
+        }
+
+        if (formats.indexOf(file.type) === -1) {
+            return new Response(
+                400,
+                {},
+                {
+                    message: "Invalid file format",
+                }
+            );
+        }
+
+        const video = schema.create("video");
+
+        return {
+            id: video.id,
+            message: "Video upload started",
+        };
+    }
 }
 
 export default new VideosController();
