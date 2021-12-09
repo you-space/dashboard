@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { ref, watch } from "vue";
+import { ref, watch, defineAsyncComponent } from "vue";
 
 import { useMoment } from "@/plugins/moment";
 import { dialog } from "@/plugins/dialog";
@@ -11,6 +11,15 @@ import { useVideosRepository } from "@/api/repositores";
 interface VideoWithThumbnail extends Video {
     thumbnail?: any;
 }
+
+// components
+const UploadDialog = defineAsyncComponent(
+    () => import("./components/UploadDialog.vue")
+);
+
+const dialogs = ref({
+    upload: false,
+});
 
 const repository = useVideosRepository();
 const moment = useMoment();
@@ -113,6 +122,27 @@ async function deleteVideo(id: Video["id"]) {
             <y-card-section>
                 <div class="flex w-full items-baseline justify-between mb-10">
                     <div class="font-bold text-2xl">Videos list</div>
+
+                    <y-btn label="add new" color="primary">
+                        <y-menu width="200">
+                            <y-card
+                                class="text-xs text-left"
+                                dark-color="coolGray-600"
+                                shadow="lg"
+                            >
+                                <y-item
+                                    class="border-b"
+                                    clickable
+                                    @click="dialogs.upload = true"
+                                >
+                                    Upload video
+                                </y-item>
+                                <y-item clickable>Add video raw</y-item>
+                            </y-card>
+                        </y-menu>
+                    </y-btn>
+
+                    <upload-dialog v-model="dialogs.upload" />
                 </div>
 
                 <y-table :loading="loading" :headers="headers" :items="items">
@@ -135,11 +165,13 @@ async function deleteVideo(id: Video["id"]) {
                     </template>
 
                     <template #item-actions="{ item }">
-                        <y-icon
-                            clickable
-                            name="trash"
+                        <y-btn
                             @click="deleteVideo(item.id)"
-                        />
+                            text
+                            color="gray-500"
+                        >
+                            <y-icon name="trash" />
+                        </y-btn>
                     </template>
                 </y-table>
 
