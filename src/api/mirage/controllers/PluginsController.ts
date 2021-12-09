@@ -22,7 +22,7 @@ class PluginsController {
         }
 
         schema.create("plugin", {
-            title: body.gitUrl.split("/").pop().replace(".git", ""),
+            name: body.gitUrl.split("/").pop().replace(".git", ""),
         });
 
         return {
