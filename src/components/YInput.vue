@@ -1,12 +1,17 @@
 <template>
-    <label :class="['y-input', $attrs.class]" :style="styles">
+    <label :class="classes" :style="styles">
         <div v-if="label" class="y-input-label">
             {{ label }}
         </div>
 
-        <slot name="input" :attrs="inputAttrs">
-            <input v-model="model" v-bind="inputAttrs" :type="type" />
-        </slot>
+        <div class="w-full relative">
+            <div class="y-input-prepend-icon">
+                <y-icon v-if="prependIcon" :name="prependIcon" />
+            </div>
+            <slot name="input" :attrs="inputAttrs">
+                <input v-model="model" v-bind="inputAttrs" :type="type" />
+            </slot>
+        </div>
 
         <template v-if="message">
             <div class="y-input-messages">
@@ -54,6 +59,10 @@ export default defineComponent({
         focusColor: {
             type: String,
             default: "gray-800",
+        },
+        prependIcon: {
+            type: String,
+            default: null,
         },
     },
     setup(props, { emit, attrs }) {
@@ -108,11 +117,22 @@ export default defineComponent({
             style: undefined,
         };
 
+        const classes = computed(() => {
+            const result = ["y-input", attrs.class];
+
+            if (props.prependIcon) {
+                result.push("y-input-with-prepend");
+            }
+
+            return result;
+        });
+
         return {
             message,
             model,
 
             inputAttrs,
+            classes,
             styles,
 
             validate,
@@ -146,10 +166,21 @@ export default defineComponent({
         color: var(--color);
     }
 
+    &.y-input-with-prepend {
+        input {
+            @apply pl-10;
+        }
+
+        .y-input-prepend-icon {
+            @apply absolute h-full flex items-center px-3;
+            border-color: var(--color);
+        }
+    }
+
     input {
         @apply focus:outline-none focus:border-primary;
-        @apply w-full rounded px-4 py-2;
-        @apply border;
+        @apply rounded px-4 py-2;
+        @apply border w-full;
         @apply dark:text-white;
         @apply transition-colors;
 
