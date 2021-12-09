@@ -59,8 +59,11 @@ export function createServer({ environment = "development" } = {}) {
 
             this.get("videos", VideosController.index);
 
-            this.delete("videos/:id", VideosController.destroy);
+            this.post("videos", VideosController.store);
+
             this.post("videos/upload", VideosController.upload);
+
+            this.delete("videos/:id", VideosController.destroy);
         },
     });
 }

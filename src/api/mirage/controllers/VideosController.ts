@@ -19,23 +19,14 @@ class VideosController {
         };
     }
 
-    public destroy(schema: Schema, request: Request) {
-        const video = schema.find("video", request.params.id);
+    public store(schema: Schema, request: Request) {
+        const body = JSON.parse(request.requestBody);
 
-        if (!video) {
-            return new Response(
-                404,
-                {},
-                {
-                    message: "Video not found",
-                }
-            );
-        }
-
-        video.destroy();
+        const video = schema.create("video", body);
 
         return {
-            message: "Video deleted",
+            id: video.id,
+            message: "Video created",
         };
     }
 
@@ -70,6 +61,26 @@ class VideosController {
         return {
             id: video.id,
             message: "Video upload started",
+        };
+    }
+
+    public destroy(schema: Schema, request: Request) {
+        const video = schema.find("video", request.params.id);
+
+        if (!video) {
+            return new Response(
+                404,
+                {},
+                {
+                    message: "Video not found",
+                }
+            );
+        }
+
+        video.destroy();
+
+        return {
+            message: "Video deleted",
         };
     }
 }
