@@ -26,10 +26,12 @@ export default defineComponent({
 });
 </script>
 
-<style lang="postcss">
+<style lang="scss">
 .y-content {
     @apply transition-width  ease-in-out;
     @apply overflow-auto;
     @apply dark:bg-gray-700;
+
+    scroll-behavior: smooth;
 }
 </style>
