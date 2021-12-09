@@ -13,7 +13,7 @@ const props = defineProps({
     },
     length: {
         type: Number,
-        default: 5,
+        default: 3,
     },
     color: {
         type: String,
@@ -53,26 +53,19 @@ const visiblePages = computed(() => {
 });
 </script>
 <template>
-    <div class="flex w-full justify-center items-end">
+    <div class="y-pagination">
         <y-btn
-            v-if="model > 1"
-            class="mx-1"
+            :disabled="model == 1"
             size="sm"
             :color="color"
             outlined
             @click="model--"
         >
-            <y-icon class="contents" name="chevron-left" />
+            <y-icon name="chevron-left" />
         </y-btn>
 
         <template v-if="!visiblePages.includes(1)">
-            <y-btn
-                class="mx-1"
-                size="sm"
-                :color="color"
-                outlined
-                @click="model = 1"
-            >
+            <y-btn size="sm" :color="color" outlined @click="model = 1">
                 {{ 1 }}
             </y-btn>
 
@@ -82,7 +75,6 @@ const visiblePages = computed(() => {
         <y-btn
             v-for="page in visiblePages"
             :key="page"
-            class="mx-1"
             size="sm"
             :color="model === page ? selectedColor : color"
             :outlined="model !== page"
@@ -95,7 +87,6 @@ const visiblePages = computed(() => {
             <y-icon class="mx-2" name="ellipsis-h" />
 
             <y-btn
-                class="mx-1"
                 size="sm"
                 :color="color"
                 outlined
@@ -106,14 +97,23 @@ const visiblePages = computed(() => {
         </template>
 
         <y-btn
-            v-if="model < totalPages"
-            class="mx-1"
+            :disabled="model == totalPages"
             size="sm"
             :color="color"
             outlined
             @click="model++"
         >
-            <y-icon class="contents" name="chevron-right" />
+            <y-icon name="chevron-right" />
         </y-btn>
     </div>
 </template>
+
+<style lang="scss">
+.y-pagination {
+    @apply flex w-full justify-center items-end;
+
+    .y-btn {
+        @apply h-full mx-1;
+    }
+}
+</style>
