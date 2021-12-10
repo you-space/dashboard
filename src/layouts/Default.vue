@@ -1,6 +1,6 @@
 <script lang="ts" setup>
 import { useStore } from "@/store";
-import { ref } from "vue";
+import { ref, onMounted } from "vue";
 
 const store = useStore();
 const drawer = ref(true);
@@ -31,13 +31,27 @@ const pages = ref([
 function toggleDarkMode() {
     store.commit("app/setDarkMode", !store.state.app.darkMode);
 }
+
+function toggleDrawer(value: boolean) {
+    drawer.value = value;
+
+    localStorage.setItem("theme:drawer:show", value.toString());
+}
+
+onMounted(() => {
+    const show = localStorage.getItem("theme:drawer:show");
+
+    if (show) {
+        toggleDrawer(show === "true");
+    }
+});
 </script>
 <template>
     <y-layout>
         <y-layout-toolbar>
             <div style="width: 72px" class="flex items-center justify-center">
                 <y-btn
-                    @click="drawer = !drawer"
+                    @click="toggleDrawer(!drawer)"
                     text
                     color="gray-500"
                     dark-color="white"
