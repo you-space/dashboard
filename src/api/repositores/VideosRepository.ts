@@ -13,6 +13,12 @@ export class VideosRepository {
         return data;
     }
 
+    public async show(id: Video["id"]) {
+        const { data } = await http.get<Video>(`/videos/${id}`);
+
+        return data;
+    }
+
     public async store(video: Partial<Video>) {
         const { data } = await http.post("/videos", video);
 

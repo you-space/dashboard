@@ -19,6 +19,22 @@ class VideosController {
         };
     }
 
+    public show(schema: Schema, request: Request) {
+        const video = schema.find("video", request.params.id);
+
+        if (!video) {
+            return new Response(
+                404,
+                {},
+                {
+                    message: "Video not found",
+                }
+            );
+        }
+
+        return video.attrs;
+    }
+
     public store(schema: Schema, request: Request) {
         const body = JSON.parse(request.requestBody);
 

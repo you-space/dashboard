@@ -18,7 +18,7 @@ const youtubeIds = [
 const videoFactory = Factory.extend<Video>({
     id: () => faker.datatype.number(),
     title: faker.name.title,
-    description: faker.lorem.text,
+    description: () => faker.lorem.paragraphs(3),
     sourceId: () => faker.random.arrayElement(youtubeIds),
     source: "youtube",
     src() {

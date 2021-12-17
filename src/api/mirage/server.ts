@@ -59,6 +59,8 @@ export function createServer({ environment = "development" } = {}) {
 
             this.get("videos", VideosController.index);
 
+            this.get("videos/:id", VideosController.show);
+
             this.post("videos", VideosController.store);
 
             this.post("videos/upload", VideosController.upload);
