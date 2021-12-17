@@ -8,6 +8,7 @@ import { scroll } from "@/compositions/helpers";
 
 import Video from "@/api/models/video";
 import { useVideosRepository } from "@/api/repositores";
+import { useRouter } from "vue-router";
 
 interface VideoWithThumbnail extends Video {
     thumbnail?: any;
@@ -22,13 +23,16 @@ const RawVideoDialog = defineAsyncComponent(
     () => import("./components/RawVideoDialog.vue")
 );
 
+// injects
+const repository = useVideosRepository();
+const moment = useMoment();
+const router = useRouter();
+
+// variables
 const dialogs = ref({
     upload: false,
     raw: false,
 });
-
-const repository = useVideosRepository();
-const moment = useMoment();
 
 const loading = ref(false);
 
@@ -40,10 +44,6 @@ const meta = ref({
 const items = ref<VideoWithThumbnail[]>();
 
 const headers = [
-    {
-        label: "#",
-        value: "id",
-    },
     {
         name: "thumbnail",
         label: "",
@@ -80,6 +80,8 @@ const headers = [
         name: "actions",
     },
 ];
+
+// methods
 
 async function setVideos() {
     loading.value = true;
@@ -122,13 +124,17 @@ async function deleteVideo(id: Video["id"]) {
         )
         .finally(setVideos);
 }
+
+function showVideo(id: Video["id"]) {
+    return router.push(`/videos/${id}`);
+}
 </script>
 
 <template>
     <y-page>
         <y-card>
             <y-card-section>
-                <div class="flex w-full items-baseline justify-between mb-10">
+                <div class="flex w-full items-baseline justify-between mb-8">
                     <div class="font-bold text-2xl">Videos list</div>
 
                     <y-btn label="add new" color="primary">
@@ -176,6 +182,14 @@ async function deleteVideo(id: Video["id"]) {
                     </template>
 
                     <template #item-actions="{ item }">
+                        <y-btn
+                            @click="showVideo(item.id)"
+                            text
+                            color="gray-500"
+                        >
+                            <y-icon name="pen" />
+                        </y-btn>
+
                         <y-btn
                             @click="deleteVideo(item.id)"
                             text
