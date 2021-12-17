@@ -64,6 +64,10 @@ export default defineComponent({
             type: String,
             default: null,
         },
+        disabled: {
+            type: Boolean,
+            default: false,
+        },
     },
     setup(props, { emit, attrs }) {
         const inputs = inject(inputKey, null);
@@ -113,6 +117,7 @@ export default defineComponent({
 
         const inputAttrs = {
             ...attrs,
+            disabled: props.disabled,
             class: undefined,
             style: undefined,
         };
@@ -122,6 +127,10 @@ export default defineComponent({
 
             if (props.prependIcon) {
                 result.push("y-input-with-prepend");
+            }
+
+            if (props.disabled) {
+                result.push("y-input-disabled");
             }
 
             return result;
@@ -177,7 +186,8 @@ export default defineComponent({
         }
     }
 
-    input {
+    input,
+    textarea {
         @apply focus:outline-none focus:border-primary;
         @apply rounded px-4 py-2;
         @apply border w-full;
@@ -189,6 +199,10 @@ export default defineComponent({
         &.y-input-error {
             border-color: theme("colors.red.500");
         }
+    }
+
+    &.y-input-disabled {
+        @apply opacity-70;
     }
 }
 </style>
