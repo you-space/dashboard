@@ -17,11 +17,11 @@ function isPercentageMeasure(value: string): boolean {
 
 function toMeasure(value: number | string) {
     if (isPixelMeasure(value.toString())) {
-        return value;
+        return String(value);
     }
 
     if (isPercentageMeasure(value.toString())) {
-        return value;
+        return String(value);
     }
 
     return `${value}px`;
